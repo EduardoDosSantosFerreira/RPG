@@ -6,9 +6,9 @@
   <title>Legend of Asterya — Protótipo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
@@ -19,19 +19,20 @@
   <!-- Tela principal -->
   <section id="screen1" class="screen active" aria-hidden="false">
     <div class="game-title">
-      <h1 id="gameTitle">Legend of Asterya</h1>
+      <h1 id="gameTitle">Lenda de Asterya</h1>
       <p id="subtitle">Aventura Épica RPG</p>
     </div>
     <div class="menu-buttons" role="menu">
-      <button class="btn btn-primary" id="playBtn">
+      <a href="home.html" class="btn btn-primary" id="playBtn">
         <i class="fas fa-skull-crossbones"></i> <span class="btn-text">Iniciar Jornada</span>
-      </button>
+      </a>
       <button class="btn btn-secondary" id="creditsBtn">
         <i class="fas fa-scroll"></i> <span class="btn-text">Créditos</span>
       </button>
     </div>
+    
     <!-- Texto de dica no estilo Souls -->
-    <div class="hint">Prepare to face your destiny. Every decision has consequences...</div>
+    <div class="hint">Prepare-se para enfrentar seu destino. Cada decisão tem consequências...</div>
   </section>
   
   <script>
@@ -63,39 +64,9 @@
       particlesContainer.appendChild(particle);
     }
     
-    // Adicionar funcionalidade aos botões
-    document.getElementById('playBtn').addEventListener('click', function() {
-      this.innerHTML = '<i class="fas fa-dragon"></i> <span class="btn-text">Prepare to Die...</span>';
-      this.style.animation = 'pulse 0.5s 3';
-      
-      // Efeito sonoro simulado
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.5);
-      
-      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.5);
-      
-      // Mensagem no console (simulando início do jogo)
-      console.log('%c⚔️ Legend of Asterya ⚔️', 'font-family: "MedievalSharp", cursive; font-size: 18px; color: #d4af37;');
-      console.log('%cPrepare for a challenging journey ahead...', 'font-style: italic; color: #c0a050;');
-      
-      setTimeout(() => {
-        alert("Your journey begins now. The world of Asterya awaits...");
-      }, 800);
-    });
-    
+    // Adicionar funcionalidade ao botão de créditos
     document.getElementById('creditsBtn').addEventListener('click', function() {
-      this.innerHTML = '<i class="fas fa-crown"></i> <span class="btn-text">Lore & Credits</span>';
+      this.innerHTML = '<i class="fas fa-crown"></i> <span class="btn-text">Lore & Créditos</span>';
       
       // Criar um modal de créditos no estilo Dark Souls
       const modal = document.createElement('div');
@@ -121,21 +92,22 @@
       modalContent.style.boxShadow = '0 0 40px rgba(139, 69, 19, 0.5)';
       
       modalContent.innerHTML = `
-        <h2 style="font-family: 'UnifrakturMaguntia', cursive; color: #d4af37; font-size: 2.5rem; margin-bottom: 1rem;">Lore of Asterya</h2>
+        <h2 style="font-family: 'UnifrakturMaguntia', cursive; color: #d4af37; font-size: 2.5rem; margin-bottom: 1rem;">Lore de Asterya</h2>
         <p style="margin-bottom: 1.5rem; line-height: 1.6; color: #c0a050;">
-          In a forgotten age, the kingdom of Asterya flourished under the benevolent rule of the Sun King. 
-          But darkness fell when the Eternal Night consumed the land, and the king's soul was shattered into fragments. 
-          Now, as the Chosen Undead, you must journey through cursed lands, face monstrous foes, and reclaim the soul fragments to restore light to Asterya.
+          Em uma era esquecida, o reino de Asterya floresceu sob o benevolente reinado do Rei Sol.
+          Mas a escuridão caiu quando a Noite Eterna consumiu a terra, e a alma do rei foi fragmentada.
+          Agora, como o Escolhido dos Mortos-Vivos, você deve viajar por terras amaldiçoadas, enfrentar inimigos monstruosos
+          e recuperar os fragmentos da alma para restaurar a luz a Asterya.
         </p>
-        <h3 style="color: #d4af37; margin-bottom: 1rem; border-bottom: 1px solid #8b4513; padding-bottom: 0.5rem;">Credits</h3>
+        <h3 style="color: #d4af37; margin-bottom: 1rem; border-bottom: 1px solid #8b4513; padding-bottom: 0.5rem;">Créditos</h3>
         <ul style="list-style-type: none; color: #c0a050;">
-          <li>Game Design: The Ashen One</li>
-          <li>Art Direction: Firelink Studio</li>
-          <li>Music & Sound: Souls of Astora</li>
-          <li>Narrative: Lorekeepers Guild</li>
+          <li>Design do Jogo: O Escolhido das Cinzas</li>
+          <li>Direção de Arte: Estúdio Firelink</li>
+          <li>Música & Sons: Almas de Astora</li>
+          <li>Narrativa: Guilda dos Guardiões da Lore</li>
         </ul>
         <button id="closeModal" style="margin-top: 2rem; padding: 0.8rem 2rem; background: transparent; border: 1px solid #8b4513; color: #d4af37; font-family: 'Cinzel', serif; cursor: pointer; transition: all 0.3s;">
-          <i class="fas fa-times"></i> Return
+          <i class="fas fa-times"></i> Voltar
         </button>
       `;
       
@@ -173,6 +145,27 @@
     
     // Iniciar efeito de digitação após a animação de entrada
     setTimeout(typeWriter, 2000);
+    
+    // Efeito especial ao passar o mouse no botão "Iniciar Jornada"
+    const playBtn = document.getElementById('playBtn');
+    playBtn.addEventListener('mouseenter', function() {
+      // Efeito sonoro simulado
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.3);
+      
+      gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.3);
+    });
   </script>
 </body>
 </html>
