@@ -11,154 +11,1173 @@
         href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/home.css">
+    <style>
+        /* css/home.css - ATUALIZADO PARA LAYOUT VERTICAL */
+        
+        /* Reset e configurações base Dark Souls */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #000000;
+            color: #d4af37;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Efeitos de forja majestosos */
+        .background-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(139, 0, 0, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(184, 115, 51, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 60%),
+                linear-gradient(135deg,
+                    #000000 0%,
+                    #1a0a05 25%,
+                    #0a0a0a 50%,
+                    #1a0a05 75%,
+                    #000000 100%);
+            z-index: -3;
+        }
+
+        /* Anvil effect */
+        .anvil-decoration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            z-index: -2;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .anvil-decoration::before {
+            content: '⚒️';
+            font-size: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
+
+        /* Efeitos de cinzas flutuantes */
+        .floating-ashes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .ash-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(200, 200, 200, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: ash-float linear infinite;
+        }
+
+        @keyframes ash-float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.3;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--x-move) * 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Efeitos de fogo */
+        .fire-effects {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            z-index: -2;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 50% 100%,
+                    rgba(255, 69, 0, 0.15) 0%,
+                    rgba(255, 140, 0, 0.1) 25%,
+                    transparent 70%);
+            filter: blur(10px);
+            animation: fire-flicker 2s infinite alternate;
+        }
+
+        @keyframes fire-flicker {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Header de navegação - Estilo forja */
+        .nav-header {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(to bottom,
+                    rgba(30, 15, 7, 0.95),
+                    rgba(15, 7, 3, 0.8));
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(to right,
+                    transparent,
+                    #8b0000,
+                    #d4af37,
+                    #8b0000,
+                    transparent) 1;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-header::before {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(212, 175, 55, 0.3),
+                    rgba(212, 175, 55, 0.6),
+                    rgba(212, 175, 55, 0.3),
+                    transparent);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Tela principal - Entrada majestosa */
+        .screen {
+            min-height: calc(100vh - 120px);
+            padding: 2rem;
+            animation: screen-forge-in 2s cubic-bezier(0.215, 0.610, 0.355, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes screen-forge-in {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container principal - LAYOUT VERTICAL */
+        .vertical-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Título majestoso */
+        .page-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 4.5rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow:
+                0 0 20px rgba(212, 175, 55, 0.7),
+                0 0 40px rgba(139, 0, 0, 0.5),
+                0 0 60px rgba(139, 0, 0, 0.3),
+                3px 3px 0px #8b0000,
+                -1px -1px 0px #000000;
+            letter-spacing: 3px;
+            position: relative;
+            animation: title-forge-glow 4s infinite alternate;
+        }
+
+        @keyframes title-forge-glow {
+            0% {
+                text-shadow:
+                    0 0 20px rgba(212, 175, 55, 0.7),
+                    0 0 40px rgba(139, 0, 0, 0.5),
+                    3px 3px 0px #8b0000,
+                    -1px -1px 0px #000000;
+            }
+
+            100% {
+                text-shadow:
+                    0 0 30px rgba(212, 175, 55, 0.9),
+                    0 0 60px rgba(139, 0, 0, 0.7),
+                    0 0 90px rgba(139, 0, 0, 0.5),
+                    3px 3px 0px #8b0000,
+                    -1px -1px 0px #000000;
+            }
+        }
+
+        /* Seção NOME */
+        .name-section {
+            background:
+                linear-gradient(145deg,
+                    rgba(30, 15, 7, 0.92),
+                    rgba(15, 7, 3, 0.95));
+            border: 4px solid transparent;
+            border-image: linear-gradient(45deg,
+                    #8b0000,
+                    #d4af37,
+                    #8b4513,
+                    #d4af37,
+                    #8b0000) 1;
+            padding: 2rem 3rem;
+            box-shadow:
+                0 0 30px rgba(139, 0, 0, 0.4),
+                0 0 60px rgba(212, 175, 55, 0.2),
+                inset 0 0 30px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+        }
+
+        .section-title {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 2.2rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+            text-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(212, 175, 55, 0.4);
+            letter-spacing: 2px;
+        }
+
+        /* Input estilo forja */
+        .name-input {
+            padding: 1.2rem 2rem;
+            background: linear-gradient(to bottom,
+                    rgba(30, 15, 7, 0.9),
+                    rgba(15, 7, 3, 0.95));
+            border: 3px solid #8b4513;
+            color: #f0e0a0;
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 80%;
+            max-width: 500px;
+            letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow:
+                inset 0 2px 10px rgba(0, 0, 0, 0.5),
+                0 0 0 rgba(212, 175, 55, 0);
+            margin: 0 auto;
+            display: block;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow:
+                0 0 30px rgba(212, 175, 55, 0.5),
+                inset 0 2px 20px rgba(212, 175, 55, 0.1);
+            background: linear-gradient(to bottom,
+                    rgba(40, 20, 10, 0.95),
+                    rgba(20, 10, 5, 0.98));
+            transform: translateY(-3px);
+        }
+
+        .name-input::placeholder {
+            color: rgba(192, 160, 80, 0.4);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* Seção PERSONAGENS */
+        .characters-section {
+            background:
+                linear-gradient(145deg,
+                    rgba(30, 15, 7, 0.92),
+                    rgba(15, 7, 3, 0.95));
+            border: 4px solid transparent;
+            border-image: linear-gradient(45deg,
+                    #8b0000,
+                    #d4af37,
+                    #8b4513,
+                    #d4af37,
+                    #8b0000) 1;
+            padding: 2rem;
+            box-shadow:
+                0 0 30px rgba(139, 0, 0, 0.4),
+                0 0 60px rgba(212, 175, 55, 0.2),
+                inset 0 0 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+        }
+
+        /* Grid de personagens */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .characters-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .character-option {
+            background: linear-gradient(145deg,
+                    rgba(40, 20, 10, 0.85),
+                    rgba(20, 10, 5, 0.9));
+            border: 3px solid #8b4513;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 320px;
+        }
+
+        .character-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(212, 175, 55, 0.1) 50%,
+                    transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+
+        .character-option:hover {
+            border-color: #d4af37;
+            transform: translateY(-8px) scale(1.03);
+            box-shadow:
+                0 15px 35px rgba(212, 175, 55, 0.3),
+                0 0 50px rgba(139, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(212, 175, 55, 0.2);
+            background: linear-gradient(145deg,
+                    rgba(60, 30, 15, 0.9),
+                    rgba(30, 15, 7, 0.95));
+        }
+
+        .character-option:hover::before {
+            transform: translateX(100%);
+        }
+
+        .character-option.selected {
+            border-color: #d4af37;
+            background: linear-gradient(145deg,
+                    rgba(80, 40, 20, 0.95),
+                    rgba(40, 20, 10, 0.98));
+            box-shadow:
+                0 0 30px rgba(212, 175, 55, 0.5),
+                inset 0 0 30px rgba(212, 175, 55, 0.15),
+                0 10px 40px rgba(139, 0, 0, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .character-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #d4af37;
+            font-size: 1.8rem;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+            animation: check-forge-sparkle 2s infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.5));
+        }
+
+        @keyframes check-forge-sparkle {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .character-image {
+            width: 210px;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 3px solid #8b4513;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .character-option:hover .character-image {
+            border-color: #d4af37;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .character-option.selected .character-image {
+            border-color: #d4af37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .character-name {
+            font-size: 1.4rem;
+            color: #f0e0a0;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 10px rgba(212, 175, 55, 0.3);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .character-type {
+            font-size: 1rem;
+            color: rgba(240, 224, 160, 0.9);
+            font-style: italic;
+            line-height: 1.4;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Seção LORE E NÚMEROS */
+        .lore-numbers-section {
+            background:
+                linear-gradient(145deg,
+                    rgba(30, 15, 7, 0.92),
+                    rgba(15, 7, 3, 0.95));
+            border: 4px solid transparent;
+            border-image: linear-gradient(45deg,
+                    #8b0000,
+                    #d4af37,
+                    #8b4513,
+                    #d4af37,
+                    #8b0000) 1;
+            padding: 2rem;
+            box-shadow:
+                0 0 30px rgba(139, 0, 0, 0.4),
+                0 0 60px rgba(212, 175, 55, 0.2),
+                inset 0 0 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+        }
+
+        .lore-numbers-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            min-height: 300px;
+        }
+
+        @media (max-width: 900px) {
+            .lore-numbers-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Lore container */
+        .lore-container {
+            background: linear-gradient(to bottom,
+                    rgba(15, 7, 3, 0.95),
+                    rgba(10, 5, 0, 0.98));
+            padding: 1.5rem;
+            border: 2px solid rgba(139, 69, 19, 0.5);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(240, 224, 160, 0.9);
+            overflow-y: auto;
+            position: relative;
+            box-shadow:
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(139, 0, 0, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .lore-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .lore-container::-webkit-scrollbar-track {
+            background: rgba(20, 10, 5, 0.6);
+            border-radius: 4px;
+        }
+
+        .lore-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #8b0000, #d4af37);
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .lore-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #d4af37, #8b0000);
+        }
+
+        /* Numbers container */
+        .numbers-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 1.5rem;
+            background: linear-gradient(to bottom,
+                    rgba(20, 10, 5, 0.7),
+                    rgba(10, 5, 0, 0.85));
+            border: 2px solid rgba(139, 69, 19, 0.4);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 20px rgba(0, 0, 0, 0.7),
+                0 0 15px rgba(139, 0, 0, 0.2);
+        }
+
+        .numbers-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 40%,
+                    rgba(212, 175, 55, 0.08) 50%,
+                    transparent 60%);
+            animation: numbers-forge-shine 12s infinite linear;
+        }
+
+        @keyframes numbers-forge-shine {
+            0% {
+                transform: translateX(-100%) skewX(-20deg);
+            }
+
+            100% {
+                transform: translateX(100%) skewX(-20deg);
+            }
+        }
+
+        .number-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(145deg,
+                    rgba(40, 20, 10, 0.8),
+                    rgba(20, 10, 5, 0.9));
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .number-item:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(145deg,
+                    rgba(60, 30, 15, 0.9),
+                    rgba(30, 15, 7, 0.95));
+            box-shadow: 0 5px 12px rgba(212, 175, 55, 0.2);
+        }
+
+        .number-label {
+            font-size: 0.9rem;
+            color: #c0a050;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .number-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #f0e0a0;
+            font-family: 'MedievalSharp', cursive;
+            text-shadow:
+                0 0 10px rgba(212, 175, 55, 0.6),
+                0 0 20px rgba(139, 0, 0, 0.4);
+            position: relative;
+        }
+
+        /* Botão de confirmação */
+        .confirm-section {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .confirm-button {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #f0e0a0;
+            background: linear-gradient(145deg,
+                    rgba(60, 30, 15, 0.95),
+                    rgba(30, 15, 7, 0.98));
+            border: 4px solid #8b0000;
+            border-radius: 0;
+            padding: 1.2rem 4rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 10px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 10px 40px rgba(139, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .confirm-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(212, 175, 55, 0.2) 50%,
+                    transparent 70%);
+            transform: translateX(-100%);
+        }
+
+        .confirm-button:hover:not(:disabled) {
+            border-color: #d4af37;
+            color: #fff8dc;
+            transform: translateY(-8px);
+            box-shadow:
+                0 20px 60px rgba(212, 175, 55, 0.6),
+                0 0 100px rgba(139, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            background: linear-gradient(145deg,
+                    rgba(80, 40, 20, 0.98),
+                    rgba(40, 20, 10, 0.95));
+        }
+
+        .confirm-button:hover:not(:disabled)::before {
+            animation: button-forge-shine 0.8s ease;
+        }
+
+        @keyframes button-forge-shine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .confirm-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: #8b4513;
+            filter: grayscale(0.6);
+            transform: none;
+        }
+
+        /* Placeholder */
+        .placeholder {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(192, 160, 80, 0.5);
+            font-style: italic;
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Modal de confirmação */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 1, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            animation: modal-forge-in 0.8s cubic-bezier(0.215, 0.610, 0.355, 1) forwards;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes modal-forge-in {
+            0% {
+                opacity: 0;
+                backdrop-filter: blur(0);
+            }
+
+            100% {
+                opacity: 1;
+                backdrop-filter: blur(10px);
+            }
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg,
+                    rgba(40, 20, 10, 0.98),
+                    rgba(20, 10, 5, 0.98));
+            border: 5px solid transparent;
+            border-image: linear-gradient(45deg,
+                    #8b0000,
+                    #d4af37,
+                    #8b4513,
+                    #d4af37,
+                    #8b0000) 1;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+            box-shadow:
+                0 0 60px rgba(212, 175, 55, 0.6),
+                0 0 120px rgba(139, 0, 0, 0.7),
+                inset 0 0 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+            animation: modal-forge-glow 3s infinite alternate;
+        }
+
+        @keyframes modal-forge-glow {
+            0% {
+                box-shadow:
+                    0 0 50px rgba(212, 175, 55, 0.5),
+                    0 0 100px rgba(139, 0, 0, 0.6);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 80px rgba(212, 175, 55, 0.7),
+                    0 0 150px rgba(139, 0, 0, 0.8);
+            }
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(212, 175, 55, 0.1) 50%,
+                    transparent 70%);
+            animation: modal-forge-shine 6s infinite linear;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .modal-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.8rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+            text-shadow:
+                0 0 20px rgba(212, 175, 55, 0.8),
+                0 0 40px rgba(139, 0, 0, 0.6),
+                2px 2px 0px #8b0000;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-message {
+            font-size: 1.2rem;
+            color: #f0e0a0;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-button {
+            background: linear-gradient(145deg,
+                    rgba(60, 30, 15, 0.95),
+                    rgba(30, 15, 7, 0.95));
+            border: 3px solid #d4af37;
+            color: #f0e0a0;
+            padding: 1.2rem 3rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            box-shadow:
+                0 8px 25px rgba(212, 175, 55, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-button:hover {
+            background: linear-gradient(145deg,
+                    rgba(80, 40, 20, 0.98),
+                    rgba(40, 20, 10, 0.95));
+            transform: translateY(-4px);
+            box-shadow:
+                0 15px 40px rgba(212, 175, 55, 0.6),
+                0 0 60px rgba(139, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Botões estilo forja */
+        .btn {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: #f0e0a0;
+            background: linear-gradient(145deg,
+                    rgba(40, 20, 10, 0.9),
+                    rgba(20, 10, 5, 0.95));
+            border: 2px solid #8b0000;
+            border-radius: 0;
+            padding: 0.8rem 1.8rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 25px rgba(139, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:hover:not(:disabled) {
+            color: #fff8dc;
+            border-color: #d4af37;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow:
+                0 12px 35px rgba(212, 175, 55, 0.5),
+                0 0 50px rgba(139, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            background: linear-gradient(145deg,
+                    rgba(60, 30, 15, 0.95),
+                    rgba(30, 15, 7, 0.95));
+        }
+
+        .btn-secondary {
+            border-color: #8b4513;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .screen {
+                padding: 1.5rem;
+                min-height: calc(100vh - 100px);
+            }
+
+            .nav-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 3rem;
+                letter-spacing: 2px;
+                margin-bottom: 1rem;
+            }
+
+            .name-section,
+            .characters-section,
+            .lore-numbers-section {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .name-input {
+                width: 95%;
+                font-size: 1.4rem;
+                padding: 1rem;
+            }
+
+            .character-image {
+                width: 120px;
+                height: 160px;
+            }
+
+            .character-name {
+                font-size: 1.2rem;
+            }
+
+            .confirm-button {
+                padding: 1rem 2rem;
+                font-size: 1.3rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .modal-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Efeitos de partículas */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Efeitos de fundo -->
     <div class="background-effect"></div>
+    <div class="anvil-decoration"></div>
+    <div class="floating-ashes" id="floatingAshes"></div>
+    <div class="fire-effects"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- Header -->
-    <header class="nav-header">
-        <button class="btn btn-secondary" id="backBtn">
-            <i class="fas fa-arrow-left"></i> Voltar
-        </button>
-    </header>
+
 
     <!-- Tela principal -->
     <main class="screen" id="creationScreen">
         <h1 class="page-title">Forja do Destino</h1>
 
-        <div class="creation-container">
-            <!-- Painel de criação -->
-            <div class="panel creation-form">
-                <label class="form-label" for="heroName">Nome do Herói</label>
+        <!-- Container vertical -->
+        <div class="vertical-container">
+            <!-- Seção 1: NOME -->
+            <section class="name-section">
+                <h2 class="section-title">NOME DO HERÓI</h2>
                 <input type="text" id="heroName" class="name-input" placeholder="Digite o nome do seu herói"
                     maxlength="20">
+            </section>
 
-                <label class="form-label">Escolha sua Classe</label>
-                <div class="classes-grid" id="classesContainer"></div>
-            </div>
-
-            <!-- Painel de preview -->
-            <div class="panel preview-panel">
-                <h2 class="preview-title" id="previewTitle">Selecione uma Classe</h2>
-
-                <div class="stats-container" id="statsContainer">
-                    <!-- As estatísticas serão inseridas aqui via JavaScript -->
+            <!-- Seção 2: PERSONAGENS -->
+            <section class="characters-section">
+                <h2 class="section-title">ESCOLHA SEU PERSONAGEM</h2>
+                <div class="characters-grid" id="charactersGrid">
+                    <!-- Personagens serão inseridos aqui via JavaScript -->
                 </div>
+            </section>
 
-                <div class="class-lore" id="loreContainer">
-                    Sua escolha definirá sua jornada em Asterya. Cada classe possui habilidades únicas, fraquezas e uma
-                    história que moldará seu destino.
+            <!-- Seção 3: LORE E NÚMEROS -->
+            <section class="lore-numbers-section">
+                <h2 class="section-title">LORE E NÚMEROS</h2>
+                <div class="lore-numbers-content">
+                    <div class="lore-container" id="loreContainer">
+                        <div class="placeholder">
+                            <i class="fas fa-scroll"></i>
+                            <div>Selecione um personagem para ver sua história</div>
+                        </div>
+                    </div>
+                    <div class="numbers-container" id="numbersContainer">
+                        <div class="placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <div>Selecione um personagem para ver suas estatísticas</div>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                <button class="btn btn-primary confirm-button" id="confirmBtn" disabled>
-                    <i class="fas fa-fist-raised"></i> Confirmar Herói
+            <!-- Botão de confirmação -->
+            <div class="confirm-section">
+                <button class="confirm-button" id="confirmBtn" disabled>
+                    <i class="fas fa-fist-raised"></i> FORJAR DESTINO
                 </button>
             </div>
         </div>
     </main>
 
     <script>
-        // Dados das classes
-        const gameClasses = [
+        // Dados dos personagens
+        const gameCharacters = [
             {
                 id: 'warrior',
                 name: 'Guerreiro das Cinzas',
                 image: './img/heros/warrior.png',
-                description: 'Mestre das armas corpo a corpo',
-                lore: 'Um veterano de inúmeras batalhas, forjado no calor do combate. O Guerreiro das Cinzas é resiliente, poderoso e implacável. Sua armadura pesada e espada larga são tão temidas quanto sua determinação inabalável. Você sobreviveu à Grande Purificação e agora busca redenção nas terras amaldiçoadas de Asterya.',
+                type: 'Tanque / Dano Corporal',
+                lore: 'Um veterano de inúmeras batalhas, forjado no calor do combate. O Guerreiro das Cinzas é resiliente, poderoso e implacável. Sua armadura pesada e espada larga são tão temidas quanto sua determinação inabalável. Você sobreviveu à Grande Purificação e agora busca redenção nas terras amaldiçoadas de Asterya. Sua jornada é marcada por cicatrizes de guerra e a memória de batalhas perdidas.',
                 stats: {
-                    força: 16,
-                    destreza: 10,
-                    constituição: 14,
+                    força: 18,
+                    destreza: 12,
+                    constituição: 16,
                     inteligência: 8,
-                    sabedoria: 9,
-                    carisma: 11
+                    sabedoria: 10,
+                    carisma: 11,
+                    vida: 150,
+                    defesa: 25
                 }
             },
             {
                 id: 'mage',
                 name: 'Arcano das Sombras',
                 image: './img/heros/mage.png',
-                description: 'Conjurador de magias arcanas',
-                lore: 'Estudioso dos segredos proibidos, o Arcano das Sombras domina energias que desafiam a compreensão mortal. Seu conhecimento das artes obscuras permite manipular a realidade, mas cada feitiço custa um pedaço de sua humanidade. Nas bibliotecas proibidas de Lorian, você descobriu verdades que arruinariam mentes mais fracas.',
+                type: 'Magia / Controle',
+                lore: 'Estudioso dos segredos proibidos, o Arcano das Sombras domina energias que desafiam a compreensão mortal. Seu conhecimento das artes obscuras permite manipular a realidade, mas cada feitiço custa um pedaço de sua humanidade. Nas bibliotecas proibidas de Lorian, você descobriu verdades que arruinariam mentes mais fracas. Agora, carrega esse conhecimento como uma maldição e uma arma.',
                 stats: {
-                    força: 8,
-                    destreza: 9,
-                    constituição: 10,
-                    inteligência: 17,
-                    sabedoria: 14,
-                    carisma: 12
+                    força: 6,
+                    destreza: 10,
+                    constituição: 9,
+                    inteligência: 20,
+                    sabedoria: 15,
+                    carisma: 14,
+                    mana: 180,
+                    poder: 30
                 }
             },
             {
                 id: 'rogue',
                 name: 'Ladino do Crepúsculo',
                 image: './img/heros/rogue.png',
-                description: 'Mestre da furtividade e precisão',
-                lore: 'Nas vielas sombrias de Drangleic, você aprendeu que a lâmina mais afiada é a que não se vê. O Ladino do Crepúsculo é um artista da discrição, capaz de infiltrar-se nas fortalezas mais seguras e eliminar alvos antes que percebam o perigo. Sua agilidade é tão mortal quanto suas lâminas ocultas.',
+                type: 'Furtivo / Precisão',
+                lore: 'Nas vielas sombrias de Drangleic, você aprendeu que a lâmina mais afiada é a que não se vê. O Ladino do Crepúsculo é um artista da discrição, capaz de infiltrar-se nas fortalezas mais seguras e eliminar alvos antes que percebam o perigo. Sua agilidade é tão mortal quanto suas lâminas ocultas. Você serve a nenhum rei, apenas ao seu código de honra sombria.',
                 stats: {
-                    força: 10,
-                    destreza: 17,
-                    constituição: 11,
-                    inteligência: 12,
-                    sabedoria: 13,
-                    carisma: 14
+                    força: 11,
+                    destreza: 19,
+                    constituição: 12,
+                    inteligência: 13,
+                    sabedoria: 14,
+                    carisma: 15,
+                    precisão: 28,
+                    furtividade: 22
                 }
             },
             {
                 id: 'cleric',
                 name: 'Devoto do Sol',
                 image: './img/heros/cleric.png',
-                description: 'Canalizador do poder divino',
-                lore: 'A fé é seu escudo, e a luz do Sol sua espada. Como Devoto do Sol, você serve aos deuses antigos de Asterya, canalizando seu poder para curar aliados e incinerar os impuros. Sua jornada é uma peregrinação sagrada para reacender a Chama Primordial que mantém a escuridão à distância.',
+                type: 'Cura / Suporte Divino',
+                lore: 'A fé é seu escudo, e a luz do Sol sua espada. Como Devoto do Sol, você serve aos deuses antigos de Asterya, canalizando seu poder para curar aliados e incinerar os impuros. Sua jornada é uma peregrinação sagrada para reacender a Chama Primordial que mantém a escuridão à distância. Cada oração é uma arma, cada bênção uma armadura.',
                 stats: {
-                    força: 12,
-                    destreza: 9,
-                    constituição: 13,
-                    inteligência: 10,
-                    sabedoria: 16,
-                    carisma: 15
+                    força: 13,
+                    destreza: 10,
+                    constituição: 14,
+                    inteligência: 12,
+                    sabedoria: 18,
+                    carisma: 16,
+                    fé: 25,
+                    cura: 35
                 }
             },
             {
                 id: 'berserker',
                 name: 'Bárbaro da Perdição',
                 image: './img/heros/barbarian.png',
-                description: 'Fúria incontrolável em batalha',
-                lore: 'As tribos do Norte criam guerreiros que abraçam a fúria da batalha. O Bárbaro da Perdição não conhece medo ou piedade, apenas o êxtase do combate. Sua força titânica pode esmagar armaduras e derrubar portões. Mas cada explosão de fúria consome um pedaço de sua sanidade, aproximando-o da besta que habita dentro.',
+                type: 'Fúria / Dano Bruto',
+                lore: 'As tribos do Norte criam guerreiros que abraçam a fúria da batalha. O Bárbaro da Perdição não conhece medo ou piedade, apenas o êxtase do combate. Sua força titânica pode esmagar armaduras e derrubar portões. Mas cada explosão de fúria consome um pedaço de sua sanidade, aproximando-o da besta que habita dentro. Você é a tempestade que os outros temem.',
                 stats: {
-                    força: 18,
-                    destreza: 12,
-                    constituição: 16,
-                    inteligência: 7,
-                    sabedoria: 8,
-                    carisma: 10
+                    força: 22,
+                    destreza: 14,
+                    constituição: 18,
+                    inteligência: 6,
+                    sabedoria: 9,
+                    carisma: 12,
+                    fúria: 40,
+                    resistência: 20
                 }
             },
             {
                 id: 'ranger',
                 name: 'Caçador da Floresta',
                 image: './img/heros/ranger.png',
-                description: 'Mestre do arco e da natureza',
-                lore: 'As florestas ancestrais de Asterya são seu lar e fortaleza. Como Caçador da Floresta, você se move como uma sombra entre as árvores, suas flechas sempre encontram o alvo, e os segredos da natureza são seus aliados. Você testemunhou a corrupção que consome a floresta e jurou expurgá-la, flecha por flecha.',
+                type: 'Longo Alcance / Sobrevivência',
+                lore: 'As florestas ancestrais de Asterya são seu lar e fortaleza. Como Caçador da Floresta, você se move como uma sombra entre as árvores, suas flechas sempre encontram o alvo, e os segredos da natureza são seus aliados. Você testemunhou a corrupção que consome a floresta e jurou expurgá-la, flecha por flecha. Cada animal é um companheiro, cada planta uma aliada.',
                 stats: {
-                    força: 11,
-                    destreza: 16,
-                    constituição: 12,
-                    inteligência: 10,
-                    sabedoria: 14,
-                    carisma: 13
+                    força: 12,
+                    destreza: 18,
+                    constituição: 13,
+                    inteligência: 11,
+                    sabedoria: 15,
+                    carisma: 14,
+                    precisão: 26,
+                    sobrevivência: 24
                 }
             }
         ];
 
         // Estado da aplicação
         const appState = {
-            selectedClass: null,
+            selectedCharacter: null,
             heroName: '',
             isConfirming: false
         };
@@ -166,7 +1185,8 @@
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             initParticles();
-            loadClasses();
+            initFloatingAshes();
+            loadCharacters();
             setupEventListeners();
             updateConfirmButton();
         });
@@ -174,21 +1194,21 @@
         // Inicializar partículas de fundo
         function initParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 40; i++) {
                 const particle = document.createElement('div');
                 particle.style.position = 'absolute';
-                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.width = Math.random() * 4 + 1 + 'px';
                 particle.style.height = particle.style.width;
-                particle.style.background = `rgba(212, 175, 55, ${Math.random() * 0.2})`;
+                particle.style.background = `rgba(212, 175, 55, ${Math.random() * 0.3})`;
                 particle.style.borderRadius = '50%';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
 
                 particle.animate([
-                    { transform: 'translateY(0px)', opacity: 0.3 },
-                    { transform: `translateY(${Math.random() * 50 - 25}px)`, opacity: 0 }
+                    { transform: 'translateY(0px)', opacity: 0.4 },
+                    { transform: `translateY(${Math.random() * 60 - 30}px)`, opacity: 0 }
                 ], {
-                    duration: Math.random() * 3000 + 2000,
+                    duration: Math.random() * 4000 + 3000,
                     iterations: Infinity,
                     direction: 'alternate'
                 });
@@ -197,90 +1217,108 @@
             }
         }
 
-        // Carregar classes na interface
-        function loadClasses() {
-            const container = document.getElementById('classesContainer');
+        // Inicializar cinzas flutuantes
+        function initFloatingAshes() {
+            const container = document.getElementById('floatingAshes');
+            for (let i = 0; i < 25; i++) {
+                const ash = document.createElement('div');
+                ash.className = 'ash-particle';
+                ash.style.setProperty('--x-move', Math.random() * 2 - 1);
+                ash.style.width = Math.random() * 5 + 2 + 'px';
+                ash.style.height = ash.style.width;
+                ash.style.left = Math.random() * 100 + '%';
+                ash.style.animationDuration = Math.random() * 15 + 20 + 's';
+                ash.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(ash);
+            }
+        }
+
+        // Carregar personagens na interface
+        function loadCharacters() {
+            const container = document.getElementById('charactersGrid');
             container.innerHTML = '';
 
-            gameClasses.forEach(cls => {
-                const classElement = document.createElement('div');
-                classElement.className = 'class-option';
-                classElement.dataset.classId = cls.id;
+            gameCharacters.forEach(character => {
+                const characterElement = document.createElement('div');
+                characterElement.className = 'character-option';
+                characterElement.dataset.characterId = character.id;
 
-                classElement.innerHTML = `
-                    <img src="${cls.image}" alt="${cls.name}" class="class-image">
-                    <div class="class-name">${cls.name}</div>
-                    <div class="class-description">${cls.description}</div>
+                characterElement.innerHTML = `
+                    <img src="${character.image}" alt="${character.name}" class="character-image">
+                    <div class="character-name">${character.name}</div>
+                    <div class="character-type">${character.type}</div>
                 `;
 
-                classElement.addEventListener('click', () => selectClass(cls.id));
-                classElement.addEventListener('mouseenter', () => previewClass(cls.id));
+                characterElement.addEventListener('click', () => selectCharacter(character.id));
+                characterElement.addEventListener('mouseenter', () => previewCharacter(character.id));
 
-                container.appendChild(classElement);
+                container.appendChild(characterElement);
             });
         }
 
-        // Selecionar uma classe
-        function selectClass(classId) {
+        // Selecionar um personagem
+        function selectCharacter(characterId) {
             // Remover seleção anterior
-            document.querySelectorAll('.class-option').forEach(el => {
+            document.querySelectorAll('.character-option').forEach(el => {
                 el.classList.remove('selected');
             });
 
-            // Marcar como selecionada
-            const selectedElement = document.querySelector(`[data-class-id="${classId}"]`);
+            // Marcar como selecionado
+            const selectedElement = document.querySelector(`[data-character-id="${characterId}"]`);
             if (selectedElement) {
                 selectedElement.classList.add('selected');
             }
 
             // Atualizar estado
-            appState.selectedClass = gameClasses.find(c => c.id === classId);
+            appState.selectedCharacter = gameCharacters.find(c => c.id === characterId);
 
-            // Atualizar preview
-            updateClassPreview();
+            // Atualizar seção de lore e números
+            updateLoreAndStats();
 
             // Atualizar botão de confirmação
             updateConfirmButton();
         }
 
         // Preview ao passar o mouse
-        function previewClass(classId) {
-            if (appState.selectedClass || appState.isConfirming) return;
+        function previewCharacter(characterId) {
+            if (appState.selectedCharacter || appState.isConfirming) return;
 
-            const cls = gameClasses.find(c => c.id === classId);
-            if (!cls) return;
+            const character = gameCharacters.find(c => c.id === characterId);
+            if (!character) return;
 
-            updatePreviewContent(cls);
+            updateLoreAndStatsContent(character);
         }
 
-        // Atualizar conteúdo do preview
-        function updatePreviewContent(cls) {
-            // Título
-            document.getElementById('previewTitle').textContent = cls.name;
+        // Atualizar conteúdo da seção de lore e números
+        function updateLoreAndStatsContent(character) {
+            // Lore
+            const loreContainer = document.getElementById('loreContainer');
+            loreContainer.innerHTML = `<div style="padding: 0.5rem;">${character.lore}</div>`;
 
-            // Estatísticas
-            const statsContainer = document.getElementById('statsContainer');
+            // Números/Estatísticas
+            const statsContainer = document.getElementById('numbersContainer');
             statsContainer.innerHTML = '';
 
-            Object.entries(cls.stats).forEach(([stat, value]) => {
+            Object.entries(character.stats).forEach(([stat, value]) => {
                 const statElement = document.createElement('div');
-                statElement.className = 'stat-item';
+                statElement.className = 'number-item';
+                
+                // Formatar o nome do atributo
+                const formattedStat = stat.charAt(0).toUpperCase() + stat.slice(1);
+                
                 statElement.innerHTML = `
-                    <span class="stat-label">${stat}</span>
-                    <span class="stat-value">${value}</span>
+                    <span class="number-label">${formattedStat}</span>
+                    <span class="number-value">${value}</span>
                 `;
                 statsContainer.appendChild(statElement);
             });
-
-            // Lore
-            document.getElementById('loreContainer').textContent = cls.lore;
         }
 
-        // Atualizar preview da classe selecionada
-        function updateClassPreview() {
-            if (!appState.selectedClass) return;
+        // Atualizar seção de lore e números do personagem selecionado
+        function updateLoreAndStats() {
+            if (!appState.selectedCharacter) return;
 
-            updatePreviewContent(appState.selectedClass);
+            updateLoreAndStatsContent(appState.selectedCharacter);
         }
 
         // Atualizar botão de confirmação
@@ -292,14 +1330,18 @@
             appState.heroName = heroNameInput.value.trim();
 
             // Verificar se pode confirmar
-            const canConfirm = appState.selectedClass && appState.heroName.length >= 2;
+            const canConfirm = appState.selectedCharacter && appState.heroName.length >= 2;
 
             confirmBtn.disabled = !canConfirm;
 
             if (canConfirm) {
-                confirmBtn.innerHTML = `<i class="fas fa-fist-raised"></i> Confirmar ${appState.heroName}`;
+                confirmBtn.innerHTML = `<i class="fas fa-fist-raised"></i> FORJAR ${appState.heroName.toUpperCase()}`;
+                confirmBtn.style.borderColor = '#d4af37';
+                confirmBtn.style.background = 'linear-gradient(145deg, rgba(80, 40, 20, 0.98), rgba(40, 20, 10, 0.95))';
             } else {
-                confirmBtn.innerHTML = `<i class="fas fa-fist-raised"></i> Confirmar Herói`;
+                confirmBtn.innerHTML = `<i class="fas fa-fist-raised"></i> FORJAR DESTINO`;
+                confirmBtn.style.borderColor = '#8b0000';
+                confirmBtn.style.background = 'linear-gradient(145deg, rgba(60, 30, 15, 0.95), rgba(30, 15, 7, 0.98))';
             }
         }
 
@@ -313,8 +1355,10 @@
                 // Efeito visual
                 if (heroNameInput.value.trim().length > 0) {
                     heroNameInput.style.borderColor = '#d4af37';
+                    heroNameInput.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.3)';
                 } else {
                     heroNameInput.style.borderColor = '#8b4513';
+                    heroNameInput.style.boxShadow = 'none';
                 }
             });
 
@@ -323,25 +1367,83 @@
 
             // Botão de voltar
             document.getElementById('backBtn').addEventListener('click', () => {
-                window.history.back();
+                if (confirm('Tem certeza que deseja voltar? O progresso será perdido.')) {
+                    window.history.back();
+                }
+            });
+
+            // Efeito de foco no input
+            heroNameInput.addEventListener('focus', () => {
+                heroNameInput.style.transform = 'translateY(-3px)';
+            });
+
+            heroNameInput.addEventListener('blur', () => {
+                heroNameInput.style.transform = 'translateY(0)';
             });
         }
 
         // Confirmar criação do herói
         function confirmHero() {
-            if (!appState.selectedClass || appState.heroName.length < 2) return;
+            if (!appState.selectedCharacter || appState.heroName.length < 2) return;
 
             appState.isConfirming = true;
 
-            // Desativar inputs
+            // Efeito visual de confirmação
+            const confirmBtn = document.getElementById('confirmBtn');
+            const originalText = confirmBtn.innerHTML;
+            confirmBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> FORJANDO...`;
+            confirmBtn.disabled = true;
+            
+            // Desativar inputs temporariamente
             document.getElementById('heroName').disabled = true;
-            document.querySelectorAll('.class-option').forEach(el => {
+            document.querySelectorAll('.character-option').forEach(el => {
                 el.style.pointerEvents = 'none';
                 el.style.opacity = '0.6';
             });
 
-            // Mostrar modal de confirmação
-            showConfirmationModal();
+            // Simular processo de forja com efeitos
+            simulateForgeAnimation();
+            
+            setTimeout(() => {
+                showConfirmationModal();
+                // Restaurar botão
+                confirmBtn.innerHTML = originalText;
+                confirmBtn.disabled = false;
+            }, 2000);
+        }
+
+        // Simular animação de forja
+        function simulateForgeAnimation() {
+            const screen = document.getElementById('creationScreen');
+            
+            // Adicionar efeitos visuais
+            const forgeGlow = document.createElement('div');
+            forgeGlow.style.position = 'fixed';
+            forgeGlow.style.top = '0';
+            forgeGlow.style.left = '0';
+            forgeGlow.style.width = '100%';
+            forgeGlow.style.height = '100%';
+            forgeGlow.style.background = 'radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.2), transparent)';
+            forgeGlow.style.zIndex = '10';
+            forgeGlow.style.pointerEvents = 'none';
+            forgeGlow.style.animation = 'forgePulse 1s infinite alternate';
+            
+            // Adicionar estilo para a animação
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes forgePulse {
+                    0% { opacity: 0.3; transform: scale(1); }
+                    100% { opacity: 0.6; transform: scale(1.1); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(forgeGlow);
+            
+            // Remover após animação
+            setTimeout(() => {
+                document.body.removeChild(forgeGlow);
+                document.head.removeChild(style);
+            }, 2000);
         }
 
         // Mostrar modal de confirmação
@@ -351,16 +1453,30 @@
 
             modal.innerHTML = `
                 <div class="modal-content">
-                    <h2 class="modal-title">Destino Forjado</h2>
+                    <h2 class="modal-title">DESTINO FORJADO</h2>
                     <div class="modal-message">
-                        O herói <strong>${appState.heroName}</strong>,<br>
-                        o <strong>${appState.selectedClass.name}</strong>,<br>
-                        está pronto para sua jornada em Asterya!
-                        <br><br>
-                        <em>"Que sua lâmina nunca embace e sua coragem nunca falte."</em>
+                        <div style="margin-bottom: 1.5rem; font-size: 1.4rem; color: #d4af37;">
+                            "${appState.heroName}"
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin: 1.5rem 0;">
+                            <img src="${appState.selectedCharacter.image}" alt="${appState.selectedCharacter.name}" 
+                                 style="width: 100px; height: 130px; border: 3px solid #d4af37; border-radius: 10px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);">
+                            <div style="text-align: left;">
+                                <div style="font-size: 1.3rem; color: #f0e0a0; margin-bottom: 0.5rem;">
+                                    ${appState.selectedCharacter.name}
+                                </div>
+                                <div style="font-size: 1rem; color: #c0a050;">
+                                    ${appState.selectedCharacter.type}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 1.1rem; line-height: 1.6; color: #f0e0a0; margin-top: 1.5rem;">
+                            O destino foi selado! Sua jornada em Asterya começa agora.
+                        </div>
                     </div>
                     <button class="modal-button" id="startJourneyBtn">
-                        Iniciar Jornada
+                        <i class="fas fa-play"></i> INICIAR JORNADA
                     </button>
                 </div>
             `;
@@ -371,22 +1487,70 @@
             setTimeout(() => {
                 const startBtn = document.getElementById('startJourneyBtn');
                 startBtn.addEventListener('click', () => {
-                    // Aqui você redirecionaria para a próxima página
-                    // window.location.href = 'game.html';
-                    alert(`Redirecionando para a jornada de ${appState.heroName}...`);
-
-                    // Por enquanto, apenas remove o modal
-                    document.body.removeChild(modal);
-                    appState.isConfirming = false;
-
-                    // Reativar inputs (apenas para demonstração)
-                    document.getElementById('heroName').disabled = false;
-                    document.querySelectorAll('.class-option').forEach(el => {
-                        el.style.pointerEvents = 'auto';
-                        el.style.opacity = '1';
-                    });
+                    // Efeito de saída
+                    modal.style.animation = 'modalForgeOut 0.8s ease forwards';
+                    
+                    // Adicionar estilo para animação de saída
+                    const exitStyle = document.createElement('style');
+                    exitStyle.textContent = `
+                        @keyframes modalForgeOut {
+                            0% { opacity: 1; transform: scale(1); }
+                            100% { opacity: 0; transform: scale(0.8); }
+                        }
+                    `;
+                    document.head.appendChild(exitStyle);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(modal);
+                        document.head.removeChild(exitStyle);
+                        
+                        // Aqui você redirecionaria para a próxima página
+                        // window.location.href = 'game.html';
+                        
+                        // Por enquanto, mostra mensagem de sucesso
+                        alert(`A jornada de ${appState.heroName}, o ${appState.selectedCharacter.name}, começa agora em Asterya!`);
+                        
+                        // Resetar para demonstração (remover em produção)
+                        resetCreation();
+                    }, 800);
                 });
             }, 100);
+        }
+
+        // Resetar criação (apenas para demonstração)
+        function resetCreation() {
+            appState.isConfirming = false;
+            appState.selectedCharacter = null;
+            appState.heroName = '';
+            
+            document.getElementById('heroName').value = '';
+            document.getElementById('heroName').disabled = false;
+            
+            document.querySelectorAll('.character-option').forEach(el => {
+                el.classList.remove('selected');
+                el.style.pointerEvents = 'auto';
+                el.style.opacity = '1';
+            });
+            
+            // Resetar seção de lore e números
+            const loreContainer = document.getElementById('loreContainer');
+            loreContainer.innerHTML = `
+                <div class="placeholder">
+                    <i class="fas fa-scroll"></i>
+                    <div>Selecione um personagem para ver sua história</div>
+                </div>
+            `;
+            
+            const statsContainer = document.getElementById('numbersContainer');
+            statsContainer.innerHTML = `
+                <div class="placeholder">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>Selecione um personagem para ver suas estatísticas</div>
+                </div>
+            `;
+            
+            // Resetar botão de confirmação
+            updateConfirmButton();
         }
     </script>
 </body>
