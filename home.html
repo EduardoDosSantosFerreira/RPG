@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Legend of Asterya — Criação de Personagem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset e configurações básicas */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #0a0a0a;
+            color: #d4af37;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Efeitos de fundo simplificados */
+        .background-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(90, 20, 10, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 15, 5, 0.1) 0%, transparent 40%),
+                linear-gradient(to bottom, #0a0a0a, #1a0a05);
+            z-index: -1;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Header de navegação */
+        .nav-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(to bottom, rgba(20, 10, 5, 0.9), transparent);
+            border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+            position: relative;
+        }
+
+        .nav-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d4af37, transparent);
+        }
+
+        /* Botões */
+        .btn {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #d4af37;
+            background: 
+                linear-gradient(to bottom, rgba(30, 15, 5, 0.9), rgba(10, 5, 0, 0.9));
+            border: 2px solid #8b4513;
+            border-radius: 2px;
+            padding: 0.8rem 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:hover:not(:disabled) {
+            color: #f0e0a0;
+            border-color: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 20px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            border-color: #d4af37;
+        }
+
+        .btn-secondary {
+            border-color: #8b4513;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Tela principal */
+        .screen {
+            min-height: calc(100vh - 90px);
+            padding: 2rem;
+            animation: fadeIn 1.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Container principal */
+        .creation-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1100px) {
+            .creation-container {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+            }
+        }
+
+        /* Título */
+        .page-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 3.5rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 2rem;
+            grid-column: 1 / -1;
+            text-shadow: 
+                0 0 10px rgba(212, 175, 55, 0.5),
+                0 0 20px rgba(139, 69, 19, 0.3),
+                2px 2px 0px #8b4513;
+        }
+
+        /* Painéis */
+        .panel {
+            background: 
+                linear-gradient(to bottom, rgba(20, 10, 5, 0.9), rgba(10, 5, 0, 0.9));
+            border: 2px solid transparent;
+            border-image: linear-gradient(to bottom, #d4af37, #8b4513, #d4af37) 1;
+            padding: 2rem;
+            box-shadow: 
+                0 0 30px rgba(139, 69, 19, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Formulário de criação */
+        .creation-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 1.3rem;
+            color: #c0a050;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .name-input {
+            padding: 1rem 1.5rem;
+            background: rgba(10, 5, 0, 0.8);
+            border: 2px solid #8b4513;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Grid de classes */
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .classes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .class-option {
+            background: rgba(30, 15, 5, 0.8);
+            border: 2px solid #8b4513;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .class-option:hover {
+            border-color: #d4af37;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .class-option.selected {
+            border-color: #d4af37;
+            background: rgba(50, 25, 10, 0.9);
+            box-shadow: 
+                0 0 15px rgba(212, 175, 55, 0.3),
+                inset 0 0 10px rgba(212, 175, 55, 0.1);
+        }
+
+        .class-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .class-name {
+            font-size: 1.1rem;
+            color: #c0a050;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .class-description {
+            font-size: 0.9rem;
+            color: rgba(192, 160, 80, 0.8);
+            font-style: italic;
+        }
+
+        /* Painel de preview */
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-title {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.8rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(139, 69, 19, 0.5);
+        }
+
+        /* Estatísticas */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.8rem;
+            background: rgba(10, 5, 0, 0.6);
+            border-left: 3px solid #8b4513;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #c0a050;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        /* Lore da classe */
+        .class-lore {
+            background: rgba(10, 5, 0, 0.7);
+            padding: 1.2rem;
+            border: 1px solid rgba(139, 69, 19, 0.3);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(192, 160, 80, 0.9);
+            overflow-y: auto;
+            max-height: 200px;
+        }
+
+        /* Botão de confirmação */
+        .confirm-button {
+            margin-top: auto;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Modal de confirmação */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 1, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .modal-content {
+            background: 
+                linear-gradient(to bottom, rgba(30, 15, 5, 0.95), rgba(15, 7, 2, 0.95));
+            border: 3px solid #d4af37;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .modal-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-message {
+            font-size: 1.2rem;
+            color: #c0a050;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-button {
+            background: linear-gradient(to bottom, rgba(50, 25, 10, 0.9), rgba(25, 12, 5, 0.9));
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 1rem 2.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-button:hover {
+            background: linear-gradient(to bottom, rgba(60, 30, 15, 0.9), rgba(30, 15, 7, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Efeitos de fundo -->
+    <div class="background-effect"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="nav-header">
+        <button class="btn btn-secondary" id="backBtn">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </button>
+    </header>
+
+    <!-- Tela principal -->
+    <main class="screen" id="creationScreen">
+        <h1 class="page-title">Forja do Destino</h1>
+        
+        <div class="creation-container">
+            <!-- Painel de criação -->
+            <div class="panel creation-form">
+                <label class="form-label" for="heroName">Nome do Herói</label>
+                <input 
+                    type="text" 
+                    id="heroName" 
+                    class="name-input" 
+                    placeholder="Digite o nome do seu herói"
+                    maxlength="20"
+                >
+                
+                <label class="form-label">Escolha sua Classe</label>
+                <div class="classes-grid" id="classesContainer"></div>
+            </div>
+
+            <!-- Painel de preview -->
+            <div class="panel preview-panel">
+                <h2 class="preview-title" id="previewTitle">Selecione uma Classe</h2>
+                
+                <div class="stats-container" id="statsContainer">
+                    <!-- As estatísticas serão inseridas aqui via JavaScript -->
+                </div>
+                
+                <div class="class-lore" id="loreContainer">
+                    Sua escolha definirá sua jornada em Asterya. Cada classe possui habilidades únicas, fraquezas e uma história que moldará seu destino.
+                </div>
+                
+                <button class="btn btn-primary confirm-button" id="confirmBtn" disabled>
+                    <i class="fas fa-fist-raised"></i> Confirmar Herói
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dados das classes
+        const gameClasses = [
+            {
+                id: 'warrior',
+                name: 'Guerreiro das Cinzas',
+                icon: '⚔️',
+                description: 'Mestre das armas corpo a corpo',
+                lore: 'Um veterano de inúmeras batalhas, forjado no calor do combate. O Guerreiro das Cinzas é resiliente, poderoso e implacável. Sua armadura pesada e espada larga são tão temidas quanto sua determinação inabalável. Você sobreviveu à Grande Purificação e agora busca redenção nas terras amaldiçoadas de Asterya.',
+                stats: {
+                    força: 16,
+                    destreza: 10,
+                    constituição: 14,
+                    inteligência: 8,
+                    sabedoria: 9,
+                    carisma: 11
+                }
+            },
+            {
+                id: 'mage',
+                name: 'Arcano das Sombras',
+                icon: '🔮',
+                description: 'Conjurador de magias arcanas',
+                lore: 'Estudioso dos segredos proibidos, o Arcano das Sombras domina energias que desafiam a compreensão mortal. Seu conhecimento das artes obscuras permite manipular a realidade, mas cada feitiço custa um pedaço de sua humanidade. Nas bibliotecas proibidas de Lorian, você descobriu verdades que arruinariam mentes mais fracas.',
+                stats: {
+                    força: 8,
+                    destreza: 9,
+                    constituição: 10,
+                    inteligência: 17,
+                    sabedoria: 14,
+                    carisma: 12
+                }
+            },
+            {
+                id: 'rogue',
+                name: 'Ladino do Crepúsculo',
+                icon: '🗡️',
+                description: 'Mestre da furtividade e precisão',
+                lore: 'Nas vielas sombrias de Drangleic, você aprendeu que a lâmina mais afiada é a que não se vê. O Ladino do Crepúsculo é um artista da discrição, capaz de infiltrar-se nas fortalezas mais seguras e eliminar alvos antes que percebam o perigo. Sua agilidade é tão mortal quanto suas lâminas ocultas.',
+                stats: {
+                    força: 10,
+                    destreza: 17,
+                    constituição: 11,
+                    inteligência: 12,
+                    sabedoria: 13,
+                    carisma: 14
+                }
+            },
+            {
+                id: 'cleric',
+                name: 'Devoto do Sol',
+                icon: '☀️',
+                description: 'Canalizador do poder divino',
+                lore: 'A fé é seu escudo, e a luz do Sol sua espada. Como Devoto do Sol, você serve aos deuses antigos de Asterya, canalizando seu poder para curar aliados e incinerar os impuros. Sua jornada é uma peregrinação sagrada para reacender a Chama Primordial que mantém a escuridão à distância.',
+                stats: {
+                    força: 12,
+                    destreza: 9,
+                    constituição: 13,
+                    inteligência: 10,
+                    sabedoria: 16,
+                    carisma: 15
+                }
+            },
+            {
+                id: 'berserker',
+                name: 'Bárbaro da Perdição',
+                icon: '🪓',
+                description: 'Fúria incontrolável em batalha',
+                lore: 'As tribos do Norte criam guerreiros que abraçam a fúria da batalha. O Bárbaro da Perdição não conhece medo ou piedade, apenas o êxtase do combate. Sua força titânica pode esmagar armaduras e derrubar portões. Mas cada explosão de fúria consome um pedaço de sua sanidade, aproximando-o da besta que habita dentro.',
+                stats: {
+                    força: 18,
+                    destreza: 12,
+                    constituição: 16,
+                    inteligência: 7,
+                    sabedoria: 8,
+                    carisma: 10
+                }
+            },
+            {
+                id: 'ranger',
+                name: 'Caçador da Floresta',
+                icon: '🏹',
+                description: 'Mestre do arco e da natureza',
+                lore: 'As florestas ancestrais de Asterya são seu lar e fortaleza. Como Caçador da Floresta, você se move como uma sombra entre as árvores, suas flechas sempre encontram o alvo, e os segredos da natureza são seus aliados. Você testemunhou a corrupção que consome a floresta e jurou expurgá-la, flecha por flecha.',
+                stats: {
+                    força: 11,
+                    destreza: 16,
+                    constituição: 12,
+                    inteligência: 10,
+                    sabedoria: 14,
+                    carisma: 13
+                }
+            }
+        ];
+
+        // Estado da aplicação
+        const appState = {
+            selectedClass: null,
+            heroName: '',
+            isConfirming: false
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            initParticles();
+            loadClasses();
+            setupEventListeners();
+            updateConfirmButton();
+        });
+
+        // Inicializar partículas de fundo
+        function initParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(212, 175, 55, ${Math.random() * 0.2})`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                particle.animate([
+                    { transform: 'translateY(0px)', opacity: 0.3 },
+                    { transform: `translateY(${Math.random() * 50 - 25}px)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    iterations: Infinity,
+                    direction: 'alternate'
+                });
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Carregar classes na interface
+        function loadClasses() {
+            const container = document.getElementById('classesContainer');
+            container.innerHTML = '';
+            
+            gameClasses.forEach(cls => {
+                const classElement = document.createElement('div');
+                classElement.className = 'class-option';
+                classElement.dataset.classId = cls.id;
+                
+                classElement.innerHTML = `
+                    <div class="class-icon">${cls.icon}</div>
+                    <div class="class-name">${cls.name}</div>
+                    <div class="class-description">${cls.description}</div>
+                `;
+                
+                classElement.addEventListener('click', () => selectClass(cls.id));
+                classElement.addEventListener('mouseenter', () => previewClass(cls.id));
+                
+                container.appendChild(classElement);
+            });
+        }
+
+        // Selecionar uma classe
+        function selectClass(classId) {
+            // Remover seleção anterior
+            document.querySelectorAll('.class-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Marcar como selecionada
+            const selectedElement = document.querySelector(`[data-class-id="${classId}"]`);
+            if (selectedElement) {
+                selectedElement.classList.add('selected');
+            }
+            
+            // Atualizar estado
+            appState.selectedClass = gameClasses.find(c => c.id === classId);
+            
+            // Atualizar preview
+            updateClassPreview();
+            
+            // Atualizar botão de confirmação
+            updateConfirmButton();
+        }
+
+        // Preview ao passar o mouse
+        function previewClass(classId) {
+            if (appState.selectedClass || appState.isConfirming) return;
+            
+            const cls = gameClasses.find(c => c.id === classId);
+            if (!cls) return;
+            
+            updatePreviewContent(cls);
+        }
+
+        // Atualizar conteúdo do preview
+        function updatePreviewContent(cls) {
+            // Título
+            document.getElementById('previewTitle').textContent = cls.name;
+            
+            // Estatísticas
+            const statsContainer = document.getElementById('statsContainer');
+            statsContainer.innerHTML = '';
+            
+            Object.entries(cls.stats).forEach(([stat, value]) => {
+                const statElement = document.createElement('div');
+                statElement.className = 'stat-item';
+                statElement.innerHTML = `
+                    <span class="stat-label">${stat}</span>
+                    <span class="stat-value">${value}</span>
+                `;
+                statsContainer.appendChild(statElement);
+            });
+            
+            // Lore
+            document.getElementById('loreContainer').textContent = cls.lore;
+        }
+
+        // Atualizar preview da classe selecionada
+        function updateClassPreview() {
+            if (!appState.selectedClass) return;
+            
+            updatePreviewContent(appState.selectedClass);
+        }
+
+        // Atualizar botão de confirmação
+        function updateConfirmButton() {
+            const confirmBtn = document.getElementById('confirmBtn');
+            const heroNameInput = document.getElementById('heroName');
+            
+            // Atualizar nome no estado
+            appState.heroName = heroNameInput.value.trim();
+            
+            // Verificar se pode confirmar
+            const canConfirm = appState.selectedClass && appState.heroName.length >= 2;
+            
+            confirmBtn.disabled = !canConfirm;
+            
+            if (canConfirm) {
+                confirmBtn.innerHTML = `<i class="fas fa-fist-raised"></i> Confirmar ${appState.heroName}`;
+            } else {
+                confirmBtn.innerHTML = `<i class="fas fa-fist-raised"></i> Confirmar Herói`;
+            }
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Input do nome - CORRIGIDO: Evento simples e direto
+            const heroNameInput = document.getElementById('heroName');
+            heroNameInput.addEventListener('input', () => {
+                updateConfirmButton();
+                
+                // Efeito visual
+                if (heroNameInput.value.trim().length > 0) {
+                    heroNameInput.style.borderColor = '#d4af37';
+                } else {
+                    heroNameInput.style.borderColor = '#8b4513';
+                }
+            });
+            
+            // Botão de confirmação
+            document.getElementById('confirmBtn').addEventListener('click', confirmHero);
+            
+            // Botão de voltar
+            document.getElementById('backBtn').addEventListener('click', () => {
+                window.history.back();
+            });
+        }
+
+        // Confirmar criação do herói
+        function confirmHero() {
+            if (!appState.selectedClass || appState.heroName.length < 2) return;
+            
+            appState.isConfirming = true;
+            
+            // Desativar inputs
+            document.getElementById('heroName').disabled = true;
+            document.querySelectorAll('.class-option').forEach(el => {
+                el.style.pointerEvents = 'none';
+                el.style.opacity = '0.6';
+            });
+            
+            // Mostrar modal de confirmação
+            showConfirmationModal();
+        }
+
+        // Mostrar modal de confirmação
+        function showConfirmationModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2 class="modal-title">Destino Forjado</h2>
+                    <div class="modal-message">
+                        O herói <strong>${appState.heroName}</strong>,<br>
+                        o <strong>${appState.selectedClass.name}</strong>,<br>
+                        está pronto para sua jornada em Asterya!
+                        <br><br>
+                        <em>"Que sua lâmina nunca embace e sua coragem nunca falte."</em>
+                    </div>
+                    <button class="modal-button" id="startJourneyBtn">
+                        Iniciar Jornada
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Configurar botão do modal
+            setTimeout(() => {
+                const startBtn = document.getElementById('startJourneyBtn');
+                startBtn.addEventListener('click', () => {
+                    // Aqui você redirecionaria para a próxima página
+                    // window.location.href = 'game.html';
+                    alert(`Redirecionando para a jornada de ${appState.heroName}...`);
+                    
+                    // Por enquanto, apenas remove o modal
+                    document.body.removeChild(modal);
+                    appState.isConfirming = false;
+                    
+                    // Reativar inputs (apenas para demonstração)
+                    document.getElementById('heroName').disabled = false;
+                    document.querySelectorAll('.class-option').forEach(el => {
+                        el.style.pointerEvents = 'auto';
+                        el.style.opacity = '1';
+                    });
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
