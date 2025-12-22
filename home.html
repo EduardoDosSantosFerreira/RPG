@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Legend of Asterya — Protótipo</title>
+</head>
+
+<body>
+    <header class="nav-header">
+        <button class="btn btn-secondary" id="backBtn" aria-hidden="true" style="display:none">← Back</button>
+        <button class="btn btn-secondary" id="fixBtn" title="Aplicar correções automáticas">🛠️ Fix Issues</button>
+    </header>
+    <main>
+        <section id="screen2" class="screen" aria-hidden="true">
+            <div class="character-creation">
+                <h2 class="character-title" id="charTitle">Criação de Personagem</h2>
+                <div class="creation-panel">
+                    <label for="charName" class="label">Nome do Herói</label>
+                    <input id="charName" class="name-input" type="text" maxlength="20"
+                        placeholder="Digite o nome do seu herói">
+                    <label class="label">Escolha sua Classe</label>
+                    <div class="classes-grid" id="classesGrid" role="list"></div>
+                </div>
+                <aside class="creation-panel preview-panel" id="previewPanel" aria-live="polite">
+                    <h3 id="detailTitle">Passe o mouse ou toque em uma classe</h3>
+                    <div class="detail-stats" id="statsContainer"></div>
+                    <div class="class-lore" id="loreContainer">Detalhes da classe...</div>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" id="randomBtn">🎲 Aleatório</button>
+                        <button class="btn btn-primary" id="confirmBtn" disabled>⚔️ Confirmar Herói</button>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
