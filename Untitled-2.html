@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legend of Asterya - RPG</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- HEADER FIXO -->
+    <header class="nav-header">
+        <div class="lang-indicator" id="langIndicator">🇧🇷 PT-BR</div>
+        <button class="btn btn-secondary" id="backBtn" style="display: none;">← Voltar</button>
+    </header>
+
+    <!-- TELA 1: MENU PRINCIPAL -->
+    <main id="screen1" class="screen active">
+        <div class="menu-container">
+            <h1 class="main-title">Legend of Asterya</h1>
+            <p class="main-subtitle">Aventura Épica RPG</p>
+            <div class="menu-buttons">
+                <button class="btn btn-primary" id="playBtn">⚔️ Iniciar Jornada</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- TELA 2: CRIAÇÃO DE PERSONAGEM -->
+    <main id="screen2" class="screen">
+        <div class="character-creation">
+            <h2 class="character-title">Criação de Personagem</h2>
+
+            <!-- PAINEL ESQUERDO: NOME + CLASSES -->
+            <section class="creation-panel">
+                <div class="input-group">
+                    <label class="input-label">Nome do Herói</label>
+                    <input type="text" class="name-input" id="charName" placeholder="Digite o nome do seu lendário herói..." maxlength="20">
+                </div>
+                
+                <label class="input-label">Escolha sua Classe</label>
+                <div class="classes-grid" id="classesGrid"></div>
+            </section>
+
+            <!-- PAINEL DIREITO: PREVIEW -->
+            <section class="creation-panel preview-panel" id="previewPanel">
+                <h3 class="preview-title" id="detailTitle">Clique em uma classe para começar sua lenda</h3>
+                <div class="detail-stats" id="statsContainer"></div>
+                <div class="lore-section" id="loreSection">
+                    <div class="lore-title" id="loreTitle">Crônicas Perdidas</div>
+                    <div class="lore-text" id="loreText">Selecione sua classe para revelar sua história épica...</div>
+                </div>
+            </section>
+
+            <!-- BOTÕES DE AÇÃO -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" id="randomBtn">🎲 Escolha Aleatória</button>
+                <button class="btn btn-primary" id="confirmBtn" disabled>⚔️ Confirmar Herói Lendário</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- IMPORTS ORGANIZADOS -->
+    <script src="classes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legend of Asterya - RPG</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="nav-header">
+        <div class="lang-indicator" id="langIndicator">🇧🇷 PT-BR</div>
+        <button class="btn btn-secondary" id="backBtn" style="display: none;">← Voltar</button>
+    </header>
+
+    <main id="screen1" class="screen active">
+        <div class="menu-container">
+            <h1 id="gameTitle">Legend of Asterya</h1>
+            <p id="gameSubtitle">Aventura Épica RPG</p>
+            <div class="menu-buttons">
+                <button class="btn btn-primary btn-large" id="playBtn">⚔️ Iniciar Jornada</button>
+                <button class="btn btn-secondary" id="langBtn">🌐 Idioma</button>
+                <button class="btn btn-secondary" id="creditsBtn">📜 Créditos</button>
+            </div>
+        </div>
+    </main>
+
+    <main id="screen2" class="screen">
+        <div class="character-creation">
+            <h2 id="charTitle" class="character-title">Criação de Personagem</h2>
+
+            <section class="creation-panel left-panel">
+                <div class="input-group">
+                    <label id="nameLabel" class="input-label">Nome do Herói</label>
+                    <input type="text" class="name-input" id="charName" placeholder="Digite o nome..." maxlength="20">
+                </div>
+                <label id="classLabel" class="input-label">Escolha sua Classe</label>
+                <div class="classes-grid" id="classesGrid"></div>
+            </section>
+
+            <section class="creation-panel right-panel preview-panel" id="previewPanel">
+                <h3 id="detailTitle" class="preview-title">Passe o mouse sobre uma classe</h3>
+                <div class="detail-stats" id="statsContainer"></div>
+                <div class="lore-section">
+                    <div class="lore-title" id="loreTitle">Crônicas Perdidas</div>
+                    <div class="lore-text" id="loreText">Selecione uma classe para revelar sua lenda...</div>
+                </div>
+            </section>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" id="randomBtn">🎲 Aleatório</button>
+                <button class="btn btn-primary" id="confirmBtn" disabled>⚔️ Confirmar Herói</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/classes.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
