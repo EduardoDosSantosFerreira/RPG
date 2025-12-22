@@ -317,22 +317,6 @@
             color: #b08d57;
         }
         
-        .log-hero {
-            color: #4a8bc2;
-        }
-        
-        .log-enemy {
-            color: #c24a4a;
-        }
-        
-        .log-heal {
-            color: #2a8a5c;
-        }
-        
-        .log-defend {
-            color: #2a5c8a;
-        }
-        
         @media (max-width: 900px) {
             .battle-container {
                 flex-direction: column;
@@ -363,7 +347,6 @@
     <div class="container">
         <div class="menu-bar">
             <div class="menu-item active"><i class="fas fa-home"></i> ALTAR</div>
-            <div class="menu-item"><i class="fas fa-chess-board"></i> INVENTÁRIO</div>
             <div class="menu-item"><i class="fas fa-scroll"></i> MISSÕES</div>
             <div class="menu-item"><i class="fas fa-store"></i> COMÉRCIO</div>
         </div>
@@ -378,29 +361,29 @@
                 <div class="hp-bar-container">
                     <div class="hp-label">
                         <span>VITALIDADE</span>
-                        <span id="hero-current-hp">10</span>/<span id="hero-max-hp">10</span>
+                        <span>10</span>/<span>10</span>
                     </div>
                     <div class="hp-bar">
-                        <div class="hp-fill hero-hp" id="hero-hp-bar" style="width: 100%"></div>
+                        <div class="hp-fill hero-hp" style="width: 100%"></div>
                     </div>
                 </div>
                 
                 <div class="stats">
                     <div class="stat-item">
                         <span class="stat-label">Ataque:</span>
-                        <span class="stat-value" id="hero-attack">2</span>
+                        <span class="stat-value">2</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Velocidade:</span>
-                        <span class="stat-value" id="hero-speed">8</span>
+                        <span class="stat-value">8</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Vitalidade:</span>
-                        <span class="stat-value" id="hero-vit">12</span>
+                        <span class="stat-value">12</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Defesa:</span>
-                        <span class="stat-value" id="hero-def">1</span>
+                        <span class="stat-value">1</span>
                     </div>
                 </div>
             </div>
@@ -416,269 +399,53 @@
                 <div class="hp-bar-container">
                     <div class="hp-label">
                         <span>VITALIDADE</span>
-                        <span id="enemy-current-hp">20</span>/<span id="enemy-max-hp">20</span>
+                        <span>20</span>/<span>20</span>
                     </div>
                     <div class="hp-bar">
-                        <div class="hp-fill enemy-hp" id="enemy-hp-bar" style="width: 100%"></div>
+                        <div class="hp-fill enemy-hp" style="width: 100%"></div>
                     </div>
                 </div>
                 
                 <div class="stats">
                     <div class="stat-item">
                         <span class="stat-label">Ataque:</span>
-                        <span class="stat-value" id="enemy-attack">4</span>
+                        <span class="stat-value">4</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Velocidade:</span>
-                        <span class="stat-value" id="enemy-speed">8</span>
+                        <span class="stat-value">8</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Vitalidade:</span>
-                        <span class="stat-value" id="enemy-vit">20</span>
+                        <span class="stat-value">20</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Defesa:</span>
-                        <span class="stat-value" id="enemy-def">2</span>
+                        <span class="stat-value">2</span>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="actions-container">
-            <button class="action-button attack-btn" id="attack-btn">
+            <button class="action-button attack-btn">
                 <i class="fas fa-crosshairs"></i> ATACAR
             </button>
-            <button class="action-button heal-btn" id="heal-btn">
+            <button class="action-button heal-btn">
                 <i class="fas fa-heart"></i> CURAR
             </button>
-            <button class="action-button defend-btn" id="defend-btn">
+            <button class="action-button defend-btn">
                 <i class="fas fa-shield-alt"></i> DEFENDER
             </button>
         </div>
         
         <div class="battle-log">
             <h3><i class="fas fa-scroll"></i> REGISTRO DE BATALHA</h3>
-            <div id="log-entries">
+            <div>
                 <div class="log-entry">Um inimigo surge das sombras...</div>
                 <div class="log-entry">Prepare-se para o combate!</div>
             </div>
         </div>
     </div>
-
-    <script>
-        // Elementos DOM
-        const heroHpBar = document.getElementById('hero-hp-bar');
-        const heroCurrentHp = document.getElementById('hero-current-hp');
-        const enemyHpBar = document.getElementById('enemy-hp-bar');
-        const enemyCurrentHp = document.getElementById('enemy-current-hp');
-        const attackBtn = document.getElementById('attack-btn');
-        const healBtn = document.getElementById('heal-btn');
-        const defendBtn = document.getElementById('defend-btn');
-        const logEntries = document.getElementById('log-entries');
-        const menuItems = document.querySelectorAll('.menu-item');
-        
-        // Dados do jogo
-        const gameState = {
-            hero: {
-                maxHp: 10,
-                currentHp: 10,
-                attack: 2,
-                speed: 8,
-                vit: 12,
-                def: 1,
-                isDefending: false
-            },
-            enemy: {
-                maxHp: 20,
-                currentHp: 20,
-                attack: 4,
-                speed: 8,
-                vit: 20,
-                def: 2,
-                isDefending: false
-            },
-            turn: 'hero' // hero ou enemy
-        };
-        
-        // Atualizar a interface com os dados do jogo
-        function updateUI() {
-            // Atualizar barras de HP
-            const heroHpPercent = (gameState.hero.currentHp / gameState.hero.maxHp) * 100;
-            heroHpBar.style.width = `${heroHpPercent}%`;
-            heroCurrentHp.textContent = gameState.hero.currentHp;
-            
-            const enemyHpPercent = (gameState.enemy.currentHp / gameState.enemy.maxHp) * 100;
-            enemyHpBar.style.width = `${enemyHpPercent}%`;
-            enemyCurrentHp.textContent = gameState.enemy.currentHp;
-            
-            // Atualizar estatísticas
-            document.getElementById('hero-attack').textContent = gameState.hero.attack;
-            document.getElementById('hero-speed').textContent = gameState.hero.speed;
-            document.getElementById('hero-vit').textContent = gameState.hero.vit;
-            document.getElementById('hero-def').textContent = gameState.hero.def;
-            
-            document.getElementById('enemy-attack').textContent = gameState.enemy.attack;
-            document.getElementById('enemy-speed').textContent = gameState.enemy.speed;
-            document.getElementById('enemy-vit').textContent = gameState.enemy.vit;
-            document.getElementById('enemy-def').textContent = gameState.enemy.def;
-        }
-        
-        // Adicionar entrada ao registro de batalha
-        function addLogEntry(message, type = '') {
-            const entry = document.createElement('div');
-            entry.className = `log-entry ${type}`;
-            entry.textContent = message;
-            logEntries.appendChild(entry);
-            
-            // Rolar para a entrada mais recente
-            logEntries.scrollTop = logEntries.scrollHeight;
-        }
-        
-        // Ataque do herói
-        function heroAttack() {
-            if (gameState.turn !== 'hero') return;
-            
-            let damage = gameState.hero.attack;
-            
-            // Reduzir dano se o inimigo estiver defendendo
-            if (gameState.enemy.isDefending) {
-                damage = Math.max(1, damage - gameState.enemy.def);
-                addLogEntry(`O Inimigo estava defendendo! Dano reduzido para ${damage}.`, 'log-defend');
-                gameState.enemy.isDefending = false;
-            }
-            
-            // Aplicar dano
-            gameState.enemy.currentHp = Math.max(0, gameState.enemy.currentHp - damage);
-            addLogEntry(`Herói ataca causando ${damage} de dano!`, 'log-hero');
-            
-            // Verificar se o inimigo foi derrotado
-            if (gameState.enemy.currentHp <= 0) {
-                addLogEntry('INIMIGO DERROTADO! A vitória é sua!', 'log-hero');
-                disableActions();
-                return;
-            }
-            
-            // Próximo turno
-            gameState.turn = 'enemy';
-            
-            // Atualizar interface
-            updateUI();
-            
-            // Inimigo ataca após um breve delay
-            setTimeout(enemyTurn, 1000);
-        }
-        
-        // Cura do herói
-        function heroHeal() {
-            if (gameState.turn !== 'hero') return;
-            
-            const healAmount = 4;
-            gameState.hero.currentHp = Math.min(gameState.hero.maxHp, gameState.hero.currentHp + healAmount);
-            addLogEntry(`Herói cura ${healAmount} pontos de vitalidade.`, 'log-heal');
-            
-            // Próximo turno
-            gameState.turn = 'enemy';
-            
-            // Atualizar interface
-            updateUI();
-            
-            // Inimigo ataca após um breve delay
-            setTimeout(enemyTurn, 1000);
-        }
-        
-        // Defesa do herói
-        function heroDefend() {
-            if (gameState.turn !== 'hero') return;
-            
-            gameState.hero.isDefending = true;
-            addLogEntry('Herói assume posição defensiva.', 'log-defend');
-            
-            // Próximo turno
-            gameState.turn = 'enemy';
-            
-            // Atualizar interface
-            updateUI();
-            
-            // Inimigo ataca após um breve delay
-            setTimeout(enemyTurn, 1000);
-        }
-        
-        // Turno do inimigo
-        function enemyTurn() {
-            // Se o inimigo está morto, não faz nada
-            if (gameState.enemy.currentHp <= 0) return;
-            
-            // O inimigo escolhe uma ação aleatória
-            const actions = ['attack', 'defend'];
-            const action = actions[Math.floor(Math.random() * actions.length)];
-            
-            if (action === 'attack') {
-                let damage = gameState.enemy.attack;
-                
-                // Reduzir dano se o herói estiver defendendo
-                if (gameState.hero.isDefending) {
-                    damage = Math.max(1, damage - gameState.hero.def);
-                    addLogEntry(`Herói estava defendendo! Dano reduzido para ${damage}.`, 'log-defend');
-                    gameState.hero.isDefending = false;
-                }
-                
-                // Aplicar dano
-                gameState.hero.currentHp = Math.max(0, gameState.hero.currentHp - damage);
-                addLogEntry(`Inimigo ataca causando ${damage} de dano!`, 'log-enemy');
-                
-                // Verificar se o herói foi derrotado
-                if (gameState.hero.currentHp <= 0) {
-                    addLogEntry('HERÓI DERROTADO! Você foi consumido pelas trevas...', 'log-enemy');
-                    disableActions();
-                    return;
-                }
-            } else if (action === 'defend') {
-                gameState.enemy.isDefending = true;
-                addLogEntry('Inimigo assume posição defensiva.', 'log-enemy');
-            }
-            
-            // Próximo turno
-            gameState.turn = 'hero';
-            
-            // Atualizar interface
-            updateUI();
-        }
-        
-        // Desativar ações quando o combate termina
-        function disableActions() {
-            attackBtn.disabled = true;
-            healBtn.disabled = true;
-            defendBtn.disabled = true;
-            
-            attackBtn.style.opacity = '0.5';
-            healBtn.style.opacity = '0.5';
-            defendBtn.style.opacity = '0.5';
-            
-            attackBtn.style.cursor = 'not-allowed';
-            healBtn.style.cursor = 'not-allowed';
-            defendBtn.style.cursor = 'not-allowed';
-        }
-        
-        // Event Listeners
-        attackBtn.addEventListener('click', heroAttack);
-        healBtn.addEventListener('click', heroHeal);
-        defendBtn.addEventListener('click', heroDefend);
-        
-        // Menu interativo
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                menuItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Simular mudança de seção
-                const sectionName = this.textContent.trim();
-                addLogEntry(`Navegando para: ${sectionName}`, '');
-            });
-        });
-        
-        // Inicializar interface
-        updateUI();
-        addLogEntry('Combate iniciado! O Herói enfrenta um temível Inimigo.', '');
-    </script>
 </body>
 </html>
