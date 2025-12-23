@@ -12,9 +12,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* css/home.css - ATUALIZADO PARA LAYOUT VERTICAL */
-        
-        /* Reset e configurações base Dark Souls */
         * {
             margin: 0;
             padding: 0;
@@ -592,11 +589,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg,
-                    transparent 40%,
-                    rgba(212, 175, 55, 0.08) 50%,
-                    transparent 60%);
-            animation: numbers-forge-shine 12s infinite linear;
         }
 
         @keyframes numbers-forge-shine {
@@ -1016,9 +1008,6 @@
     <div class="floating-ashes" id="floatingAshes"></div>
     <div class="fire-effects"></div>
     <div class="particles" id="particles"></div>
-
-
-
     <!-- Tela principal -->
     <main class="screen" id="creationScreen">
         <h1 class="page-title">Forja do Destino</h1>
@@ -1302,10 +1291,10 @@
             Object.entries(character.stats).forEach(([stat, value]) => {
                 const statElement = document.createElement('div');
                 statElement.className = 'number-item';
-                
+
                 // Formatar o nome do atributo
                 const formattedStat = stat.charAt(0).toUpperCase() + stat.slice(1);
-                
+
                 statElement.innerHTML = `
                     <span class="number-label">${formattedStat}</span>
                     <span class="number-value">${value}</span>
@@ -1393,7 +1382,7 @@
             const originalText = confirmBtn.innerHTML;
             confirmBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> FORJANDO...`;
             confirmBtn.disabled = true;
-            
+
             // Desativar inputs temporariamente
             document.getElementById('heroName').disabled = true;
             document.querySelectorAll('.character-option').forEach(el => {
@@ -1403,7 +1392,7 @@
 
             // Simular processo de forja com efeitos
             simulateForgeAnimation();
-            
+
             setTimeout(() => {
                 showConfirmationModal();
                 // Restaurar botão
@@ -1415,7 +1404,7 @@
         // Simular animação de forja
         function simulateForgeAnimation() {
             const screen = document.getElementById('creationScreen');
-            
+
             // Adicionar efeitos visuais
             const forgeGlow = document.createElement('div');
             forgeGlow.style.position = 'fixed';
@@ -1427,7 +1416,7 @@
             forgeGlow.style.zIndex = '10';
             forgeGlow.style.pointerEvents = 'none';
             forgeGlow.style.animation = 'forgePulse 1s infinite alternate';
-            
+
             // Adicionar estilo para a animação
             const style = document.createElement('style');
             style.textContent = `
@@ -1438,7 +1427,7 @@
             `;
             document.head.appendChild(style);
             document.body.appendChild(forgeGlow);
-            
+
             // Remover após animação
             setTimeout(() => {
                 document.body.removeChild(forgeGlow);
@@ -1489,7 +1478,7 @@
                 startBtn.addEventListener('click', () => {
                     // Efeito de saída
                     modal.style.animation = 'modalForgeOut 0.8s ease forwards';
-                    
+
                     // Adicionar estilo para animação de saída
                     const exitStyle = document.createElement('style');
                     exitStyle.textContent = `
@@ -1499,17 +1488,17 @@
                         }
                     `;
                     document.head.appendChild(exitStyle);
-                    
+
                     setTimeout(() => {
                         document.body.removeChild(modal);
                         document.head.removeChild(exitStyle);
-                        
+
                         // Aqui você redirecionaria para a próxima página
                         // window.location.href = 'game.html';
-                        
+
                         // Por enquanto, mostra mensagem de sucesso
                         alert(`A jornada de ${appState.heroName}, o ${appState.selectedCharacter.name}, começa agora em Asterya!`);
-                        
+
                         // Resetar para demonstração (remover em produção)
                         resetCreation();
                     }, 800);
@@ -1522,16 +1511,16 @@
             appState.isConfirming = false;
             appState.selectedCharacter = null;
             appState.heroName = '';
-            
+
             document.getElementById('heroName').value = '';
             document.getElementById('heroName').disabled = false;
-            
+
             document.querySelectorAll('.character-option').forEach(el => {
                 el.classList.remove('selected');
                 el.style.pointerEvents = 'auto';
                 el.style.opacity = '1';
             });
-            
+
             // Resetar seção de lore e números
             const loreContainer = document.getElementById('loreContainer');
             loreContainer.innerHTML = `
@@ -1540,7 +1529,7 @@
                     <div>Selecione um personagem para ver sua história</div>
                 </div>
             `;
-            
+
             const statsContainer = document.getElementById('numbersContainer');
             statsContainer.innerHTML = `
                 <div class="placeholder">
@@ -1548,7 +1537,7 @@
                     <div>Selecione um personagem para ver suas estatísticas</div>
                 </div>
             `;
-            
+
             // Resetar botão de confirmação
             updateConfirmButton();
         }

@@ -1,171 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Legend of Asterya — Protótipo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
-
 </head>
+
 <body>
+
   <!-- Efeitos de partículas -->
   <div id="particles"></div>
   <div class="smoke"></div>
-  
+
   <!-- Tela principal -->
   <section id="screen1" class="screen active" aria-hidden="false">
     <div class="game-title">
-      <h1 id="gameTitle">Lenda de Asterya</h1>
-      <p id="subtitle">Aventura Épica RPG</p>
+      <h1 id="gameTitle">Asterya</h1>
     </div>
+
     <div class="menu-buttons" role="menu">
       <a href="home.html" class="btn btn-primary" id="playBtn">
-        <i class="fas fa-skull-crossbones"></i> <span class="btn-text">Iniciar Jornada</span>
+        <span class="btn-text">Iniciar Jornada</span>
       </a>
-      <button class="btn btn-secondary" id="creditsBtn">
-        <i class="fas fa-scroll"></i> <span class="btn-text">Créditos</span>
-      </button>
     </div>
-    
+
     <!-- Texto de dica no estilo Souls -->
     <div class="hint">Prepare-se para enfrentar seu destino. Cada decisão tem consequências...</div>
   </section>
-  
-  <script>
-    // Simulação de partículas
-    const particlesContainer = document.getElementById('particles');
-    const particlesCount = 80;
-    
-    for (let i = 0; i < particlesCount; i++) {
-      const particle = document.createElement('div');
-      particle.style.position = 'absolute';
-      particle.style.width = Math.random() * 3 + 1 + 'px';
-      particle.style.height = particle.style.width;
-      particle.style.background = `rgba(212, 175, 55, ${Math.random() * 0.3 + 0.1})`;
-      particle.style.borderRadius = '50%';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      particle.style.boxShadow = `0 0 ${Math.random() * 5 + 2}px rgba(212, 175, 55, 0.5)`;
-      
-      // Animação para partículas
-      particle.animate([
-        { transform: 'translateY(0px)', opacity: Math.random() * 0.5 + 0.2 },
-        { transform: `translateY(${Math.random() * 50 - 25}px)`, opacity: 0 }
-      ], {
-        duration: Math.random() * 3000 + 2000,
-        iterations: Infinity,
-        direction: 'alternate'
-      });
-      
-      particlesContainer.appendChild(particle);
-    }
-    
-    // Adicionar funcionalidade ao botão de créditos
-    document.getElementById('creditsBtn').addEventListener('click', function() {
-      this.innerHTML = '<i class="fas fa-crown"></i> <span class="btn-text">Lore & Créditos</span>';
-      
-      // Criar um modal de créditos no estilo Dark Souls
-      const modal = document.createElement('div');
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100%';
-      modal.style.height = '100%';
-      modal.style.backgroundColor = 'rgba(5, 5, 5, 0.95)';
-      modal.style.display = 'flex';
-      modal.style.justifyContent = 'center';
-      modal.style.alignItems = 'center';
-      modal.style.zIndex = '1000';
-      modal.style.opacity = '0';
-      modal.style.transition = 'opacity 1s';
-      
-      const modalContent = document.createElement('div');
-      modalContent.style.padding = '2rem';
-      modalContent.style.maxWidth = '600px';
-      modalContent.style.textAlign = 'center';
-      modalContent.style.border = '2px solid #8b4513';
-      modalContent.style.background = 'linear-gradient(to bottom, rgba(20, 10, 5, 0.9), rgba(5, 2, 1, 0.9))';
-      modalContent.style.boxShadow = '0 0 40px rgba(139, 69, 19, 0.5)';
-      
-      modalContent.innerHTML = `
-        <h2 style="font-family: 'UnifrakturMaguntia', cursive; color: #d4af37; font-size: 2.5rem; margin-bottom: 1rem;">Lore de Asterya</h2>
-        <p style="margin-bottom: 1.5rem; line-height: 1.6; color: #c0a050;">
-          Em uma era esquecida, o reino de Asterya floresceu sob o benevolente reinado do Rei Sol.
-          Mas a escuridão caiu quando a Noite Eterna consumiu a terra, e a alma do rei foi fragmentada.
-          Agora, como o Escolhido dos Mortos-Vivos, você deve viajar por terras amaldiçoadas, enfrentar inimigos monstruosos
-          e recuperar os fragmentos da alma para restaurar a luz a Asterya.
-        </p>
-        <h3 style="color: #d4af37; margin-bottom: 1rem; border-bottom: 1px solid #8b4513; padding-bottom: 0.5rem;">Créditos</h3>
-        <ul style="list-style-type: none; color: #c0a050;">
-          <li>Design do Jogo: O Escolhido das Cinzas</li>
-          <li>Direção de Arte: Estúdio Firelink</li>
-          <li>Música & Sons: Almas de Astora</li>
-          <li>Narrativa: Guilda dos Guardiões da Lore</li>
-        </ul>
-        <button id="closeModal" style="margin-top: 2rem; padding: 0.8rem 2rem; background: transparent; border: 1px solid #8b4513; color: #d4af37; font-family: 'Cinzel', serif; cursor: pointer; transition: all 0.3s;">
-          <i class="fas fa-times"></i> Voltar
-        </button>
-      `;
-      
-      modal.appendChild(modalContent);
-      document.body.appendChild(modal);
-      
-      // Animar a entrada do modal
-      setTimeout(() => {
-        modal.style.opacity = '1';
-      }, 10);
-      
-      // Fechar modal
-      document.getElementById('closeModal').addEventListener('click', function() {
-        modal.style.opacity = '0';
-        setTimeout(() => {
-          document.body.removeChild(modal);
-          document.getElementById('creditsBtn').innerHTML = '<i class="fas fa-scroll"></i> <span class="btn-text">Créditos</span>';
-        }, 1000);
-      });
-    });
-    
-    // Efeito de digitação no subtítulo
-    const subtitle = document.getElementById('subtitle');
-    const originalText = subtitle.textContent;
-    subtitle.textContent = '';
-    
-    let i = 0;
-    const typeWriter = () => {
-      if (i < originalText.length) {
-        subtitle.textContent += originalText.charAt(i);
-        i++;
-        setTimeout(typeWriter, 50);
-      }
-    };
-    
-    // Iniciar efeito de digitação após a animação de entrada
-    setTimeout(typeWriter, 2000);
-    
-    // Efeito especial ao passar o mouse no botão "Iniciar Jornada"
-    const playBtn = document.getElementById('playBtn');
-    playBtn.addEventListener('mouseenter', function() {
-      // Efeito sonoro simulado
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(440, audioContext.currentTime + 0.3);
-      
-      gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.3);
-    });
-  </script>
+
 </body>
+
 </html>
