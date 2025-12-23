@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Legend of Asterya — Lore e Histórias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #d4af37;
+            --dark-gold: #b8860b;
+            --blood-red: #8b0000;
+            --deep-red: #5a0000;
+            --aged-parchment: #f5e9d4;
+            --aged-dark: #3a2c1e;
+            --shadow-dark: #0a0806;
+            --ash-gray: #8a8886;
+            --moss-green: #556b2f;
+            --twilight-blue: #1e3a5f;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #000000;
+            color: var(--aged-parchment);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        /* Efeitos de fundo atmosféricos */
+        .background-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(26, 10, 5, 0.8) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 20, 10, 0.6) 0%, transparent 40%),
+                linear-gradient(180deg,
+                    #000000 0%,
+                    #0f0804 20%,
+                    #1a0f0a 40%,
+                    #0f0804 70%,
+                    #000000 100%);
+            z-index: -3;
+            overflow: hidden;
+        }
+
+        /* Neblina flutuante */
+        .mist-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(150, 150, 150, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(100, 100, 100, 0.02) 0%, transparent 50%);
+            z-index: -2;
+            pointer-events: none;
+            animation: mist-drift 60s infinite linear;
+        }
+
+        @keyframes mist-drift {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            25% {
+                transform: translateX(-20px) translateY(10px);
+            }
+
+            50% {
+                transform: translateX(10px) translateY(-20px);
+            }
+
+            75% {
+                transform: translateX(-10px) translateY(15px);
+            }
+
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        /* Estrelas cadentes */
+        .shooting-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: star-twinkle 5s infinite alternate;
+        }
+
+        @keyframes star-twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.8));
+            transform: rotate(-45deg);
+            opacity: 0;
+        }
+
+        /* Header de navegação */
+        .nav-header {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(to bottom,
+                    rgba(10, 5, 2, 0.95),
+                    rgba(5, 2, 1, 0.85));
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(212, 175, 55, 0.3),
+                    rgba(212, 175, 55, 0.6),
+                    rgba(212, 175, 55, 0.3),
+                    transparent);
+        }
+
+        .logo {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-family: 'Cinzel', serif;
+            color: var(--aged-parchment);
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-gold);
+            border-bottom: 1px solid var(--primary-gold);
+        }
+
+        .nav-link.active {
+            color: var(--primary-gold);
+            border-bottom: 1px solid var(--primary-gold);
+        }
+
+        /* Tela principal */
+        .screen {
+            min-height: calc(100vh - 120px);
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Título majestoso */
+        .page-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 5rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow:
+                0 0 20px rgba(212, 175, 55, 0.7),
+                0 0 40px rgba(139, 0, 0, 0.5),
+                3px 3px 0px var(--deep-red);
+            letter-spacing: 3px;
+            position: relative;
+            padding-bottom: 1.5rem;
+            opacity: 0;
+            animation: title-fade-in 2s forwards 0.5s;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--primary-gold), transparent);
+        }
+
+        @keyframes title-fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: rgba(212, 175, 55, 0.8);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-style: italic;
+            opacity: 0;
+            animation: subtitle-fade-in 2s forwards 1s;
+        }
+
+        @keyframes subtitle-fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Container principal */
+        .lore-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 1100px) {
+            .lore-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Conteúdo principal */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        /* Seções de lore */
+        .lore-section {
+            background:
+                linear-gradient(145deg,
+                    rgba(20, 10, 5, 0.7),
+                    rgba(10, 5, 2, 0.8));
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: section-fade-in 1.5s forwards;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .lore-section:nth-child(1) {
+            animation-delay: 1.5s;
+        }
+
+        .lore-section:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .lore-section:nth-child(3) {
+            animation-delay: 2.5s;
+        }
+
+        @keyframes section-fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lore-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(212, 175, 55, 0.03) 50%,
+                    transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--primary-gold);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            color: rgba(212, 175, 55, 0.7);
+        }
+
+        .lore-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(245, 233, 212, 0.9);
+            text-align: justify;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .lore-text.highlight {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid var(--primary-gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            font-size: 1.3rem;
+        }
+
+        .lore-quote {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: rgba(192, 160, 80, 0.9);
+            text-align: center;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            font-style: italic;
+            position: relative;
+        }
+
+        .lore-quote::before,
+        .lore-quote::after {
+            content: '"';
+            font-size: 2rem;
+            color: rgba(212, 175, 55, 0.5);
+            position: absolute;
+        }
+
+        .lore-quote::before {
+            top: 5px;
+            left: 10px;
+        }
+
+        .lore-quote::after {
+            bottom: 5px;
+            right: 10px;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        /* Cartões de segredos */
+        .secret-card {
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 7, 3, 0.8),
+                    rgba(10, 5, 2, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .secret-card:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .secret-card.hidden {
+            background:
+                linear-gradient(145deg,
+                    rgba(10, 5, 2, 0.9),
+                    rgba(5, 2, 1, 0.95));
+        }
+
+        .secret-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .secret-icon {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+        }
+
+        .secret-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+
+        .secret-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(245, 233, 212, 0.8);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .secret-content.revealed {
+            max-height: 500px;
+        }
+
+        .secret-content.hidden-text {
+            color: rgba(245, 233, 212, 0.5);
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Mapa do mundo */
+        .world-map {
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 7, 3, 0.8),
+                    rgba(10, 5, 2, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .map-container {
+            height: 300px;
+            background: rgba(5, 2, 1, 0.7);
+            border: 1px solid rgba(139, 69, 19, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-landmass {
+            position: absolute;
+            background: rgba(30, 20, 10, 0.8);
+            border: 1px solid rgba(139, 69, 19, 0.7);
+            border-radius: 50%;
+        }
+
+        .map-landmass.central {
+            width: 180px;
+            height: 180px;
+            top: 60px;
+            left: 85px;
+        }
+
+        .map-landmass.north {
+            width: 100px;
+            height: 100px;
+            top: 20px;
+            left: 150px;
+        }
+
+        .map-landmass.east {
+            width: 120px;
+            height: 120px;
+            top: 90px;
+            left: 220px;
+        }
+
+        .map-landmass.west {
+            width: 80px;
+            height: 80px;
+            top: 120px;
+            left: 20px;
+        }
+
+        .map-landmass.south {
+            width: 140px;
+            height: 140px;
+            top: 180px;
+            left: 120px;
+        }
+
+        .map-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .map-point:hover::after {
+            content: attr(data-location);
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 5, 2, 0.9);
+            color: var(--primary-gold);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            border: 1px solid var(--primary-gold);
+            border-radius: 3px;
+            z-index: 3;
+        }
+
+        .map-point.drangelic {
+            top: 100px;
+            left: 60px;
+        }
+
+        .map-point.lorian {
+            top: 80px;
+            left: 220px;
+        }
+
+        .map-point.asterya {
+            top: 130px;
+            left: 130px;
+        }
+
+        .map-point.northlands {
+            top: 40px;
+            left: 150px;
+        }
+
+        .map-point.forest {
+            top: 200px;
+            left: 140px;
+        }
+
+        /* Timeline */
+        .timeline {
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 7, 3, 0.8),
+                    rgba(10, 5, 2, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+        }
+
+        .timeline-year {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-event {
+            font-size: 1rem;
+            color: rgba(245, 233, 212, 0.8);
+            line-height: 1.5;
+        }
+
+        /* Glossário */
+        .glossary {
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 7, 3, 0.8),
+                    rgba(10, 5, 2, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .glossary-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .glossary-term {
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 3px;
+        }
+
+        .glossary-term:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .term-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .term-name::before {
+            content: '✦';
+            color: var(--primary-gold);
+            font-size: 0.8rem;
+        }
+
+        .term-definition {
+            font-size: 1rem;
+            color: rgba(245, 233, 212, 0.8);
+            line-height: 1.5;
+            padding-left: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .term-definition.expanded {
+            max-height: 200px;
+            margin-top: 0.5rem;
+        }
+
+        /* Efeitos de transição de página */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            animation: page-transition-out 1.5s forwards;
+        }
+
+        @keyframes page-transition-out {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 3.5rem;
+            }
+
+            .screen {
+                padding: 1rem;
+            }
+
+            .lore-section {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .lore-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Efeitos de fundo -->
+    <div class="background-effect"></div>
+    <div class="mist-overlay"></div>
+    <div class="shooting-stars" id="shootingStars"></div>
+    <div class="page-transition"></div>
+
+    <!-- Header de navegação -->
+    <header class="nav-header">
+        <div class="logo">ASTERYA</div>
+        <nav class="nav-links">
+            <a href="#" class="nav-link active">Lore</a>
+            <a href="#" class="nav-link">Personagens</a>
+            <a href="#" class="nav-link">Mapa</a>
+            <a href="#" class="nav-link">História</a>
+            <a href="#" class="nav-link">Bestiário</a>
+        </nav>
+    </header>
+
+    <!-- Tela principal -->
+    <main class="screen">
+        <h1 class="page-title">As Crônicas de Asterya</h1>
+        <div class="page-subtitle">Um mundo em ruínas, histórias não contadas e segredos enterrados nas cinzas</div>
+
+        <div class="lore-container">
+            <!-- Conteúdo principal -->
+            <div class="main-content">
+                <!-- Seção 1: O Mundo -->
+                <section class="lore-section">
+                    <div class="section-header">
+                        <h2 class="section-title">O Mundo em Cinzas</h2>
+                        <div class="section-icon"><i class="fas fa-globe-americas"></i></div>
+                    </div>
+
+                    <p class="lore-text">
+                        Asterya não é apenas um reino; é um cadáver de civilizações passadas, uma tapeçaria de ruínas
+                        onde cada pedra carrega o peso de milênios. As terras que antes floresciam sob o Sol Eterno
+                        agora repousam sob um céu perpetuamente crepuscular, onde a luz do dia nunca é totalmente clara
+                        e a noite nunca é completamente escura.
+                    </p>
+
+                    <p class="lore-text">
+                        A Grande Purificação não foi apenas uma guerra; foi um evento cataclísmico que reescreveu a
+                        geografia do mundo. Montanhas foram niveladas, mares evaporaram, florestas petrificaram. O que
+                        restou são fragmentos desconexos de um todo que já foi glorioso, conectados apenas por estradas
+                        esquecidas e túneis subterrâneos que ecoam com murmúrios de eras passadas.
+                    </p>
+
+                    <div class="lore-text highlight">
+                        "O último raio de sol desapareceu há três séculos, mas ainda o buscamos em cada fagulha, em cada
+                        brasa, em cada olhar perdido no horizonte cinza." — Crônicas dos Devotos do Sol
+                    </div>
+
+                    <p class="lore-text">
+                        As estações perderam seu significado. Agora, Asterya conhece apenas três estados: o Crepúsculo
+                        Perpétuo das terras centrais, o Inverno Eterno das montanhas do norte, e as Tempestades de
+                        Cinzas dos desertos orientais. Cada região desenvolveu sua própria cultura de sobrevivência,
+                        seus próprios mitos sobre o que causou a queda, e suas próprias profecias sobre o que pode vir a
+                        seguir.
+                    </p>
+                </section>
+
+                <!-- Seção 2: A Queda -->
+                <section class="lore-section">
+                    <div class="section-header">
+                        <h2 class="section-title">A Queda e o Silêncio</h2>
+                        <div class="section-icon"><i class="fas fa-skull-crossbones"></i></div>
+                    </div>
+
+                    <p class="lore-text">
+                        Nenhum registro sobreviveu intacto da Grande Purificação. O que sabemos é fragmentado,
+                        contraditório e, muitas vezes, mais mito do que história. Alguns dizem que foi uma guerra entre
+                        deuses, outros que foi um experimento arcano que fugiu ao controle, e alguns sussurram sobre
+                        algo muito mais antigo despertando de seu sono milenar.
+                    </p>
+
+                    <p class="lore-text">
+                        O que é certo é que algo fundamental foi quebrado. As leis da realidade tornaram-se flexíveis
+                        nas bordas do mundo. Magia, uma vez uma ciência refinada, agora é uma força selvagem e
+                        imprevisível. Tempo e espaço se dobram em locais de poder antigo. E em algumas noites, quando a
+                        névoa está particularmente espessa, dizem que é possível ver sombras das construções que
+                        existiam antes da Queda, fantasmas arquitetônicos de uma era perdida.
+                    </p>
+
+                    <div class="lore-quote">
+                        A primeira coisa que perdemos foi a certeza. A segunda foi a memória. A terceira foi a
+                        esperança. Restou apenas a sobrevivência, e mesmo essa é questionável.
+                    </div>
+
+                    <p class="lore-text">
+                        Os poucos centros de civilização que restam são como ilhas em um oceano de ruínas. Drangleic,
+                        com suas vielas labirínticas e hierarquias secretas. Lorian, onde os estudiosos do arcanismo
+                        sussurram verdades que podem destruir mentes. Os Santuários do Sol, últimos bastiões de fé em um
+                        mundo que parece ter sido abandonado pelos deuses. Cada um destes lugares guarda seus segredos,
+                        suas histórias não contadas, e suas próprias versões da verdade.
+                    </p>
+                </section>
+
+                <!-- Seção 3: Os Segredos -->
+                <section class="lore-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Verdades Sussurradas</h2>
+                        <div class="section-icon"><i class="fas fa-eye-slash"></i></div>
+                    </div>
+
+                    <p class="lore-text">
+                        Em Asterya, a verdade é uma mercadoria mais valiosa que o ouro e mais perigosa que qualquer
+                        lâmina. Existem histórias que não são contadas em voz alta, conhecimentos que são transmitidos
+                        apenas através de sussurros codificados, segredos que são guardados a custo de vidas.
+                    </p>
+
+                    <p class="lore-text">
+                        Dizem que as ruínas não estão realmente vazias. Que algo observa dos lugares escuros, algo que
+                        se alimenta não de carne, mas de memória e tempo. Que os ecos que se ouvem nas criptas antigas
+                        não são apenas o vento, mas vozes de uma era passada, ainda presas ao mundo que as abandonou.
+                    </p>
+
+                    <div class="lore-text highlight">
+                        Existem três verdades em Asterya: a que é dita, a que é escrita, e a que é silenciada. Apenas a
+                        última importa, e conhecer pode ser uma sentença de morte.
+                    </div>
+
+                    <p class="lore-text">
+                        Alguns buscam ativamente estes segredos: os Arcanos das Sombras, que acreditam que o
+                        conhecimento proibido é a chave para restaurar o mundo. Os Devotos do Sol, que procuram
+                        relíquias sagradas para reacender a Chama Primordial. Os Ladinos do Crepúsculo, que vendem
+                        informações para quem paga mais. Mas para cada segredo descoberto, dez outros permanecem
+                        enterrados, e alguns são melhor deixados assim.
+                    </p>
+
+                    <p class="lore-text">
+                        O maior segredo de todos, é claro, é o que acontecerá a seguir. Asterya está morrendo, isso é
+                        evidente. Mas há aqueles que acreditam que este não é um fim, mas uma transformação. Que das
+                        cinzas do mundo antigo, algo novo está para nascer. Algo diferente. Algo que talvez não devesse
+                        nascer.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Barra lateral -->
+            <div class="sidebar">
+                <!-- Mapa do mundo -->
+                <div class="world-map">
+                    <h3 class="map-title">Mapa de Asterya</h3>
+                    <div class="map-container">
+                        <div class="map-landmass central"></div>
+                        <div class="map-landmass north"></div>
+                        <div class="map-landmass east"></div>
+                        <div class="map-landmass west"></div>
+                        <div class="map-landmass south"></div>
+
+                        <div class="map-point drangelic" data-location="Drangleic"></div>
+                        <div class="map-point lorian" data-location="Lorian"></div>
+                        <div class="map-point asterya" data-location="Asterya Central"></div>
+                        <div class="map-point northlands" data-location="Terras do Norte"></div>
+                        <div class="map-point forest" data-location="Florestas Ancestrais"></div>
+                    </div>
+                </div>
+
+                <!-- Segredos -->
+                <div class="secret-card hidden" id="secret1">
+                    <div class="secret-header">
+                        <div class="secret-icon"><i class="fas fa-lock"></i></div>
+                        <h4 class="secret-title">Segredo dos Sussurros</h4>
+                    </div>
+                    <div class="secret-content hidden-text">
+                        Clique para revelar um segredo de Asterya...
+                    </div>
+                </div>
+
+                <div class="secret-card hidden" id="secret2">
+                    <div class="secret-header">
+                        <div class="secret-icon"><i class="fas fa-lock"></i></div>
+                        <h4 class="secret-title">A Profecia Esquecida</h4>
+                    </div>
+                    <div class="secret-content hidden-text">
+                        Clique para revelar um segredo de Asterya...
+                    </div>
+                </div>
+
+                <div class="secret-card hidden" id="secret3">
+                    <div class="secret-header">
+                        <div class="secret-icon"><i class="fas fa-lock"></i></div>
+                        <h4 class="secret-title">Verdade sobre a Purificação</h4>
+                    </div>
+                    <div class="secret-content hidden-text">
+                        Clique para revelar um segredo de Asterya...
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline">
+                    <h3 class="timeline-title">Linha do Tempo</h3>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">Era do Sol Eterno</div>
+                        <div class="timeline-event">Asterya floresce sob a luz perpétua</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">O Primeiro Crepúsculo</div>
+                        <div class="timeline-event">O Sol começa a enfraquecer, pânico se espalha</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">A Grande Purificação</div>
+                        <div class="timeline-event">Evento cataclísmico, 90% da população perece</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">Era das Cinzas</div>
+                        <div class="timeline-event">Sobreviventes se agrupam, novas facções surgem</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">Tempo Presente</div>
+                        <div class="timeline-event">O mundo está à beira de uma nova transformação</div>
+                    </div>
+                </div>
+
+                <!-- Glossário -->
+                <div class="glossary">
+                    <h3 class="glossary-title">Glossário</h3>
+
+                    <div class="glossary-term" data-term="purificacao">
+                        <div class="term-name">A Grande Purificação</div>
+                        <div class="term-definition">Evento catastrófico que dizimou a civilização de Asterya. Sua
+                            verdadeira natureza é desconhecida e controversa.</div>
+                    </div>
+
+                    <div class="glossary-term" data-term="crepusculo">
+                        <div class="term-name">Crepúsculo Perpétuo</div>
+                        <div class="term-definition">Estado atual do céu de Asterya, nem dia completo nem noite total,
+                            apenas um eterno pôr-do-sol.</div>
+                    </div>
+
+                    <div class="glossary-term" data-term="chama">
+                        <div class="term-name">Chama Primordial</div>
+                        <div class="term-definition">Fonte de luz e calor antes da Purificação. Os Devotos do Sol buscam
+                            reacendê-la.</div>
+                    </div>
+
+                    <div class="glossary-term" data-term="arcano">
+                        <div class="term-name">Arcanismo Proibido</div>
+                        <div class="term-definition">Forma de magia que manipula realidades fundamentais, perigosa e
+                            instável.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            initStars();
+            initShootingStars();
+            setupSecretCards();
+            setupGlossary();
+            setupMapPoints();
+            startAmbientSounds();
+        });
+
+        // Criar estrelas de fundo
+        function initStars() {
+            const container = document.getElementById('shootingStars');
+
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Criar estrelas cadentes
+        function initShootingStars() {
+            const container = document.getElementById('shootingStars');
+
+            function createShootingStar() {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 50 + '%';
+
+                container.appendChild(star);
+
+                // Animação
+                star.animate([
+                    { transform: 'translateY(0) translateX(0)', opacity: 0 },
+                    { transform: `translateY(${Math.random() * 200 + 100}px) translateX(${Math.random() * 100 - 50}px)`, opacity: 1 },
+                    { transform: `translateY(${Math.random() * 400 + 200}px) translateX(${Math.random() * 200 - 100}px)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 2000 + 1000,
+                    easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                });
+
+                // Remover após animação
+                setTimeout(() => {
+                    if (star.parentNode) {
+                        star.parentNode.removeChild(star);
+                    }
+                }, 3000);
+            }
+
+            // Criar estrelas cadentes em intervalos
+            setInterval(createShootingStar, 5000);
+
+            // Criar algumas no início
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createShootingStar, i * 1000);
+            }
+        }
+
+        // Configurar cartões de segredos
+        function setupSecretCards() {
+            const secrets = [
+                {
+                    id: 'secret1',
+                    title: 'Segredo dos Sussurros',
+                    content: 'Os sussurros que ecoam nas ruínas não são apenas o vento. São memórias presas, fragmentos de consciências que não conseguiram partir quando Asterya caiu. Alguns estudiosos acreditam que é possível comunicar-se com elas, mas o preço é um pedaço da própria sanidade.'
+                },
+                {
+                    id: 'secret2',
+                    title: 'A Profecia Esquecida',
+                    content: 'Antes da Queda, os Videntes de Lorian previram que "do coração da escuridão, uma nova luz nascerá, mas seu brilho será pior que a escuridão que veio antes". A profecia foi suprimida pelas autoridades, e todos os registros foram destruídos. Exceto um.'
+                },
+                {
+                    id: 'secret3',
+                    title: 'Verdade sobre a Purificação',
+                    content: 'A Grande Purificação não foi um acidente ou um ato divino. Foi um ritual deliberado realizado por um culto que acreditava que destruir o mundo era a única maneira de salvá-lo de algo muito pior. Eles podem ter tido razão.'
+                }
+            ];
+
+            secrets.forEach(secret => {
+                const card = document.getElementById(secret.id);
+                if (!card) return;
+
+                card.addEventListener('click', () => {
+                    const content = card.querySelector('.secret-content');
+
+                    if (content.classList.contains('revealed')) {
+                        content.classList.remove('revealed');
+                        content.innerHTML = 'Clique para revelar um segredo de Asterya...';
+                        card.classList.add('hidden');
+                    } else {
+                        content.classList.add('revealed');
+                        content.innerHTML = secret.content;
+                        card.classList.remove('hidden');
+
+                        // Efeito sonoro (simulado)
+                        playSecretSound();
+                    }
+                });
+            });
+        }
+
+        // Configurar glossário
+        function setupGlossary() {
+            const terms = document.querySelectorAll('.glossary-term');
+
+            terms.forEach(term => {
+                term.addEventListener('click', () => {
+                    const definition = term.querySelector('.term-definition');
+
+                    if (definition.classList.contains('expanded')) {
+                        definition.classList.remove('expanded');
+                    } else {
+                        // Fechar outras definições
+                        terms.forEach(t => {
+                            t.querySelector('.term-definition').classList.remove('expanded');
+                        });
+
+                        definition.classList.add('expanded');
+                    }
+                });
+            });
+        }
+
+        // Configurar pontos do mapa
+        function setupMapPoints() {
+            const points = document.querySelectorAll('.map-point');
+
+            points.forEach(point => {
+                point.addEventListener('click', () => {
+                    const location = point.getAttribute('data-location');
+                    showLocationInfo(location);
+                });
+            });
+        }
+
+        // Mostrar informações da localização
+        function showLocationInfo(location) {
+            const info = {
+                'Drangleic': 'Cidade-estado nas sombras, governada por guildas secretas e ladrões. Sobrevive através de comércio ilícito e informações roubadas.',
+                'Lorian': 'Último bastião do conhecimento arcano. Suas torres abrigam estudiosos que buscam entender (e talvez reverter) a Queda.',
+                'Asterya Central': 'O coração do antigo império, agora uma vasta planície de cinzas e ruínas. Dizem que algo dorme sob as ruínas.',
+                'Terras do Norte': 'Região de inverno eterno, lar das tribos bárbaras que abraçaram a fúria como religião.',
+                'Florestas Ancestrais': 'Último remanescente da natureza pré-Purificação. A floresta está viva de uma maneira que as árvores não deveriam estar.'
+            };
+
+            if (info[location]) {
+                // Criar modal simples
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '50%';
+                modal.style.left = '50%';
+                modal.style.transform = 'translate(-50%, -50%)';
+                modal.style.background = 'linear-gradient(145deg, rgba(20, 10, 5, 0.95), rgba(10, 5, 2, 0.98))';
+                modal.style.border = '2px solid var(--primary-gold)';
+                modal.style.padding = '2rem';
+                modal.style.zIndex = '1000';
+                modal.style.maxWidth = '500px';
+                modal.style.width = '90%';
+                modal.style.boxShadow = '0 0 50px rgba(212, 175, 55, 0.5)';
+                modal.style.backdropFilter = 'blur(10px)';
+
+                modal.innerHTML = `
+                    <h3 style="font-family: 'Cinzel', serif; color: var(--primary-gold); margin-bottom: 1rem; font-size: 1.8rem;">${location}</h3>
+                    <p style="color: var(--aged-parchment); line-height: 1.6; margin-bottom: 1.5rem;">${info[location]}</p>
+                    <button style="background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 0.5rem 1.5rem; font-family: 'Cinzel', serif; cursor: pointer; float: right;">Fechar</button>
+                `;
+
+                document.body.appendChild(modal);
+
+                // Fechar modal
+                const closeBtn = modal.querySelector('button');
+                closeBtn.addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                });
+
+                // Fechar ao clicar fora
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
+            }
+        }
+
+        // Efeito sonoro para segredos (simulado)
+        function playSecretSound() {
+            // Em um ambiente real, aqui tocaria um som
+            console.log('Segredo revelado!');
+        }
+
+        // Sons ambientes (simulado)
+        function startAmbientSounds() {
+            // Em um ambiente real, aqui iniciaria uma trilha sonora atmosférica
+            console.log('Iniciando atmosfera sonora...');
+        }
+
+        // Efeito de digitação para textos (opcional)
+        function typeWriterEffect(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+
+            type();
+        }
+
+        // Aplicar efeito de digitação em algumas seções (opcional)
+        setTimeout(() => {
+            const firstParagraph = document.querySelector('.lore-text');
+            if (firstParagraph) {
+                const originalText = firstParagraph.textContent;
+                typeWriterEffect(firstParagraph, originalText, 30);
+            }
+        }, 2000);
+    </script>
+</body>
+
+</html>

@@ -22,6 +22,7 @@ body {
     color: var(--color-gold);
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
     position: relative;
     background-image: 
         radial-gradient(circle at 10% 20%, rgba(10, 10, 10, 0.8) 0%, transparent 20%),
