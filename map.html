@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Legend of Asterya — Mapa do Mundo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&family=Cormorant+Garamond:wght@300;400;500;600&family=Eagle+Lake&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #d4af37;
+            --dark-gold: #b8860b;
+            --blood-red: #8b0000;
+            --deep-red: #5a0000;
+            --aged-parchment: #f5e9d4;
+            --aged-dark: #3a2c1e;
+            --shadow-dark: #0a0806;
+            --ash-gray: #8a8886;
+            --moss-green: #556b2f;
+            --twilight-blue: #1e3a5f;
+            --ancient-bronze: #cd7f32;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #000000;
+            color: var(--aged-parchment);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        /* Efeitos de fundo atmosféricos */
+        .background-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(26, 10, 5, 0.8) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 20, 10, 0.6) 0%, transparent 40%),
+                linear-gradient(180deg,
+                    #000000 0%,
+                    #0f0804 20%,
+                    #1a0f0a 40%,
+                    #0f0804 70%,
+                    #000000 100%);
+            z-index: -3;
+            overflow: hidden;
+        }
+
+        /* Neblina flutuante */
+        .mist-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(150, 150, 150, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(100, 100, 100, 0.02) 0%, transparent 50%);
+            z-index: -2;
+            pointer-events: none;
+            animation: mist-drift 60s infinite linear;
+        }
+
+        @keyframes mist-drift {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            25% {
+                transform: translateX(-20px) translateY(10px);
+            }
+
+            50% {
+                transform: translateX(10px) translateY(-20px);
+            }
+
+            75% {
+                transform: translateX(-10px) translateY(15px);
+            }
+
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        /* Estrelas cadentes */
+        .shooting-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: star-twinkle 5s infinite alternate;
+        }
+
+        @keyframes star-twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.8));
+            transform: rotate(-45deg);
+            opacity: 0;
+        }
+
+        /* Novos efeitos: Poeira cósmica */
+        .cosmic-dust {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .dust-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: dust-float linear infinite;
+        }
+
+        @keyframes dust-float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.2;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--x-move) * 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Efeitos de brilho suave */
+        .glow-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            background: radial-gradient(circle at 30% 40%,
+                    rgba(212, 175, 55, 0.05) 0%,
+                    transparent 50%),
+                radial-gradient(circle at 70% 60%,
+                    rgba(139, 0, 0, 0.04) 0%,
+                    transparent 50%);
+            animation: glow-pulse 8s infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Header de navegação */
+        .nav-header {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(to bottom,
+                    rgba(10, 5, 2, 0.95),
+                    rgba(5, 2, 1, 0.85));
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(212, 175, 55, 0.3),
+                    rgba(212, 175, 55, 0.6),
+                    rgba(212, 175, 55, 0.3),
+                    transparent);
+        }
+
+        .logo {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-family: 'Cinzel', serif;
+            color: var(--aged-parchment);
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-gold);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--primary-gold);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Tela principal - Layout revisado */
+        .screen {
+            min-height: calc(100vh - 120px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Seção do Mapa - Tela inteira */
+        .map-section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Título sobre o mapa */
+        .map-title-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 3rem;
+            background: linear-gradient(to bottom,
+                    rgba(5, 2, 1, 0.9),
+                    transparent);
+            z-index: 10;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .main-title {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 5rem;
+            color: var(--primary-gold);
+            text-shadow:
+                0 0 20px rgba(212, 175, 55, 0.7),
+                0 0 40px rgba(139, 0, 0, 0.5),
+                3px 3px 0px var(--deep-red);
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: title-fade-in 2s forwards 0.5s;
+        }
+
+        .map-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: rgba(212, 175, 55, 0.8);
+            font-style: italic;
+            opacity: 0;
+            animation: subtitle-fade-in 2s forwards 1s;
+        }
+
+        @keyframes title-fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes subtitle-fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Container do mapa - Ocupa toda a tela */
+        .map-container-full {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .map-container-full:active {
+            cursor: grabbing;
+        }
+
+        .map-image-full {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        /* Efeito de borda no mapa */
+        .map-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 
+                inset 0 0 50px rgba(0, 0, 0, 0.8),
+                0 0 100px rgba(212, 175, 55, 0.1);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Pontos do mapa aprimorados */
+        .map-point-large {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 20px rgba(212, 175, 55, 0.9),
+                0 0 40px rgba(212, 175, 55, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            z-index: 6;
+            transition: all 0.3s ease;
+            border: 3px solid var(--aged-dark);
+            transform-origin: center;
+        }
+
+        .map-point-large:hover {
+            transform: scale(1.8);
+            box-shadow: 
+                0 0 30px rgba(212, 175, 55, 1),
+                0 0 60px rgba(212, 175, 55, 0.7),
+                inset 0 0 15px rgba(255, 255, 255, 0.7);
+            animation: point-glow 1s infinite alternate;
+        }
+
+        @keyframes point-glow {
+            0% {
+                box-shadow: 
+                    0 0 20px rgba(212, 175, 55, 0.9),
+                    0 0 40px rgba(212, 175, 55, 0.5),
+                    inset 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                box-shadow: 
+                    0 0 30px rgba(212, 175, 55, 1),
+                    0 0 60px rgba(212, 175, 55, 0.8),
+                    0 0 90px rgba(212, 175, 55, 0.4),
+                    inset 0 0 15px rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        /* Efeito de pulso nos pontos grandes */
+        .map-point-large::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: point-pulse-large 3s infinite;
+        }
+
+        @keyframes point-pulse-large {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Tooltip aprimorado para pontos */
+        .map-point-tooltip {
+            position: absolute;
+            background: rgba(10, 5, 2, 0.95);
+            color: var(--primary-gold);
+            padding: 1rem 1.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            border: 1px solid var(--primary-gold);
+            border-radius: 5px;
+            z-index: 100;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .map-point-tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--primary-gold);
+        }
+
+        .map-point-tooltip.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Controles do mapa */
+        .map-controls-large {
+            position: absolute;
+            bottom: 3rem;
+            right: 3rem;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .map-control-btn-large {
+            width: 50px;
+            height: 50px;
+            background: rgba(10, 5, 2, 0.9);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .map-control-btn-large:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: scale(1.15);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Legenda do mapa */
+        .map-legend {
+            position: absolute;
+            bottom: 3rem;
+            left: 3rem;
+            background: rgba(10, 5, 2, 0.9);
+            border: 1px solid var(--primary-gold);
+            padding: 1.5rem;
+            z-index: 20;
+            max-width: 300px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .legend-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .legend-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1rem;
+            color: var(--aged-parchment);
+        }
+
+        .legend-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-icon.city { background: #d4af37; }
+        .legend-icon.ruins { background: #8b0000; }
+        .legend-icon.forest { background: #556b2f; }
+        .legend-icon.mountains { background: #8a8886; }
+        .legend-icon.temple { background: #cd7f32; }
+        .legend-icon.wasteland { background: #5a0000; }
+
+        /* Seção de lore abaixo do mapa */
+        .lore-section-full {
+            padding: 4rem 3rem;
+            background: linear-gradient(to bottom,
+                    rgba(10, 5, 2, 0.95),
+                    rgba(5, 2, 1, 0.98));
+            position: relative;
+            z-index: 2;
+        }
+
+        .lore-container-full {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title-large {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .section-title-large::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--primary-gold), transparent);
+        }
+
+        .lore-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .lore-card {
+            background:
+                linear-gradient(145deg,
+                    rgba(20, 10, 5, 0.8),
+                    rgba(10, 5, 2, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .lore-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+        }
+
+        .lore-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .lore-card-icon {
+            font-size: 2rem;
+            color: var(--primary-gold);
+        }
+
+        .lore-card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+
+        .lore-card-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(245, 233, 212, 0.9);
+            text-align: justify;
+        }
+
+        /* Efeitos de transição de página */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            animation: page-transition-out 1.5s forwards;
+        }
+
+        @keyframes page-transition-out {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Modal de informações do mapa */
+        .map-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 1, 0.97);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(15px);
+        }
+
+        .map-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .map-modal-content {
+            background: linear-gradient(145deg,
+                    rgba(20, 10, 5, 0.98),
+                    rgba(10, 5, 2, 0.99));
+            border: 3px solid var(--primary-gold);
+            padding: 3rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 0 80px rgba(212, 175, 55, 0.6),
+                0 0 150px rgba(139, 0, 0, 0.4);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+
+        .map-modal-overlay.active .map-modal-content {
+            transform: scale(1);
+        }
+
+        .map-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .map-modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+
+        .map-modal-close {
+            background: none;
+            border: none;
+            color: var(--primary-gold);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .map-modal-close:hover {
+            transform: rotate(90deg);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .map-modal-body {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--aged-parchment);
+        }
+
+        .location-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 1.2rem;
+            border-left: 3px solid var(--primary-gold);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            color: var(--aged-parchment);
+            font-family: 'Cinzel', serif;
+        }
+
+        .location-danger {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(139, 0, 0, 0.15);
+            border-left: 3px solid var(--blood-red);
+        }
+
+        .danger-title {
+            font-size: 1rem;
+            color: var(--blood-red);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Botão de explorar */
+        .explore-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 1rem 3rem;
+            background: linear-gradient(145deg,
+                    rgba(212, 175, 55, 0.2),
+                    rgba(139, 0, 0, 0.2));
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .explore-btn:hover {
+            background: linear-gradient(145deg,
+                    rgba(212, 175, 55, 0.3),
+                    rgba(139, 0, 0, 0.3));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Indicador de scroll */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            opacity: 0.7;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+
+            .map-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .map-controls-large {
+                bottom: 2rem;
+                right: 2rem;
+            }
+
+            .map-legend {
+                bottom: 2rem;
+                left: 2rem;
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .map-title-overlay {
+                padding: 2rem 1rem;
+            }
+
+            .map-controls-large {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .map-control-btn-large {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .map-legend {
+                display: none;
+            }
+
+            .lore-section-full {
+                padding: 3rem 1.5rem;
+            }
+
+            .section-title-large {
+                font-size: 2.2rem;
+            }
+
+            .lore-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Animações de entrada */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
+    </style>
+</head>
+
+<body>
+    <!-- Efeitos de fundo -->
+    <div class="background-effect"></div>
+    <div class="mist-overlay"></div>
+    <div class="shooting-stars" id="shootingStars"></div>
+    <div class="cosmic-dust" id="cosmicDust"></div>
+    <div class="glow-effect"></div>
+    <div class="page-transition"></div>
+
+    <!-- Modal do mapa -->
+    <div class="map-modal-overlay" id="mapModal">
+        <div class="map-modal-content">
+            <div class="map-modal-header">
+                <h3 class="map-modal-title" id="modalLocationTitle">Localização</h3>
+                <button class="map-modal-close" id="modalCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="map-modal-body" id="modalLocationContent">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header de navegação -->
+    <header class="nav-header">
+        <div class="logo">ASTERYA</div>
+        <nav class="nav-links">
+            <a href="#" class="nav-link">Início</a>
+            <a href="#" class="nav-link active">Mapa</a>
+            <a href="#" class="nav-link">Personagens</a>
+            <a href="#" class="nav-link">História</a>
+            <a href="#" class="nav-link">Bestiário</a>
+        </nav>
+    </header>
+
+    <!-- Tela principal com mapa em tela cheia -->
+    <main class="screen">
+        <!-- Seção do Mapa -->
+        <section class="map-section">
+            <div class="map-title-overlay">
+                <h1 class="main-title">Mapa de Asterya</h1>
+                <div class="map-subtitle">Um mundo em ruínas, esperando para ser explorado</div>
+            </div>
+
+            <div class="map-container-full" id="mapContainer">
+                <img src="img/cenarios/mapa.png" alt="Mapa de Asterya" class="map-image-full" id="mapImage">
+                <div class="map-border"></div>
+
+                <!-- Pontos de interesse no mapa -->
+                <div class="map-point-large" id="pointDrangleic" data-location="Drangleic" 
+                     style="top: 35%; left: 25%;" data-type="city"></div>
+                <div class="map-point-large" id="pointLorian" data-location="Lorian" 
+                     style="top: 40%; left: 70%;" data-type="academy"></div>
+                <div class="map-point-large" id="pointAsterya" data-location="Asterya Central" 
+                     style="top: 45%; left: 45%;" data-type="ruins"></div>
+                <div class="map-point-large" id="pointNorthlands" data-location="Terras do Norte" 
+                     style="top: 20%; left: 50%;" data-type="mountains"></div>
+                <div class="map-point-large" id="pointForest" data-location="Florestas Ancestrais" 
+                     style="top: 65%; left: 60%;" data-type="forest"></div>
+                <div class="map-point-large" id="pointSunSanctuary" data-location="Santuários do Sol" 
+                     style="top: 55%; left: 30%;" data-type="temple"></div>
+                <div class="map-point-large" id="pointAshenWastes" data-location="Desertos de Cinza" 
+                     style="top: 35%; left: 15%;" data-type="wasteland"></div>
+                <div class="map-point-large" id="pointShadowReach" data-location="Reino das Sombras" 
+                     style="top: 70%; left: 75%;" data-type="ruins"></div>
+                <div class="map-point-large" id="pointCrystalPeaks" data-location="Picos de Cristal" 
+                     style="top: 25%; left: 80%;" data-type="mountains"></div>
+                <div class="map-point-large" id="pointWhisperingSea" data-location="Mar dos Sussurros" 
+                     style="top: 75%; left: 40%;" data-type="sea"></div>
+                
+                <!-- Tooltip (será criado dinamicamente) -->
+                <div class="map-point-tooltip" id="mapTooltip"></div>
+
+                <!-- Controles de zoom -->
+                <div class="map-controls-large">
+                    <button class="map-control-btn-large" id="zoomInBtn">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="map-control-btn-large" id="zoomOutBtn">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button class="map-control-btn-large" id="resetZoomBtn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="map-control-btn-large" id="fullscreenBtn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+
+                <!-- Legenda do mapa -->
+                <div class="map-legend">
+                    <h3 class="legend-title">Legenda</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-icon city"></div>
+                            <span>Cidades e Fortalezas</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon ruins"></div>
+                            <span>Ruínas Antigas</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon forest"></div>
+                            <span>Florestas e Bosques</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon mountains"></div>
+                            <span>Montanhas e Cordilheiras</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon temple"></div>
+                            <span>Templos e Santuários</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon wasteland"></div>
+                            <span>Terras Devastadas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Seção de Lore abaixo do mapa -->
+        <section class="lore-section-full">
+            <div class="lore-container-full">
+                <h2 class="section-title-large">As Terras de Asterya</h2>
+                
+                <div class="lore-content">
+                    <div class="lore-card fade-in">
+                        <div class="lore-card-header">
+                            <div class="lore-card-icon"><i class="fas fa-city"></i></div>
+                            <h3 class="lore-card-title">Drangleic</h3>
+                        </div>
+                        <p class="lore-card-text">
+                            Último bastião da civilização em Asterya, Drangleic sobrevive através de comércio ilícito e 
+                            informações roubadas. Suas ruas labirínticas são intencionalmente projetadas para confundir 
+                            invasores, protegendo os segredos das guildas que realmente governam a cidade.
+                        </p>
+                    </div>
+
+                    <div class="lore-card fade-in delay-1">
+                        <div class="lore-card-header">
+                            <div class="lore-card-icon"><i class="fas fa-university"></i></div>
+                            <h3 class="lore-card-title">Lorian</h3>
+                        </div>
+                        <p class="lore-card-text">
+                            Torre do conhecimento proibido, onde arcanistas estudam as artes esquecidas que podem 
+                            destruir mentes. Muitos que entram nas torres de Lorian nunca mais são vistos, ou retornam 
+                            irremediavelmente alterados pelo conhecimento que buscaram.
+                        </p>
+                    </div>
+
+                    <div class="lore-card fade-in delay-2">
+                        <div class="lore-card-header">
+                            <div class="lore-card-icon"><i class="fas fa-skull-crossbones"></i></div>
+                            <h3 class="lore-card-title">Desertos de Cinza</h3>
+                        </div>
+                        <p class="lore-card-text">
+                            Vastas extensões de cinzas radioativas, restos das terras férteis que antes existiam. 
+                            Tempestades de cinza enterram qualquer coisa que ouse se estabelecer, e ainda assim, 
+                            algumas facções arriscam a extração dos cristais arcanos que se formaram após a Purificação.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lore-content" style="margin-top: 2.5rem;">
+                    <div class="lore-card fade-in delay-3">
+                        <div class="lore-card-header">
+                            <div class="lore-card-icon"><i class="fas fa-tree"></i></div>
+                            <h3 class="lore-card-title">Florestas Ancestrais</h3>
+                        </div>
+                        <p class="lore-card-text">
+                            Último remanescente da natureza pré-Purificação. A floresta está viva de uma maneira que 
+                            as árvores não deveriam estar - elas se movem, sussurram e às vezes atacam. Os Caçadores 
+                            aprenderam a navegar por estes perigos, mas sabem que a floresta apenas tolera sua presença.
+                        </p>
+                    </div>
+
+                    <div class="lore-card fade-in delay-1">
+                        <div class="lore-card-header">
+                            <div class="lore-card-icon"><i class="fas fa-mountain"></i></div>
+                            <h3 class="lore-card-title">Terras do Norte</h3>
+                        </div>
+                        <p class="lore-card-text">
+                            Região de inverno eterno, lar das tribos bárbaras que abraçaram a fúria como religião. 
+                            Nas cavernas mais profundas dormem bestas da era glacial, e as tribos lutam constantemente 
+                            entre si, unindo-se apenas contra ameaças externas.
+                        </p>
+                    </div>
+
+                    <div class="lore-card fade-in delay-2">
+                        <div class="lore-card-header">
+                            <div class="lore-card-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <h3 class="lore-card-title">Santuários do Sol</h3>
+                        </div>
+                        <p class="lore-card-text">
+                            Últimos bastiões de fé em um mundo abandonado pelos deuses. Os Devotos mantêm chamas 
+                            sagradas acesas, esperando um dia reacender a Chama Primordial que uma vez iluminou 
+                            Asterya antes da Grande Purificação.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Estado da aplicação
+        const appState = {
+            mapZoom: 1,
+            mapPanning: false,
+            mapStartX: 0,
+            mapStartY: 0,
+            mapX: 0,
+            mapY: 0,
+            lastClickedPoint: null,
+            isFullscreen: false
+        };
+
+        // Dados das localizações expandidos
+        const locationData = {
+            'Drangleic': {
+                title: 'Drangleic',
+                description: 'Último bastião da civilização em Asterya, Drangleic sobrevive através de comércio ilícito e informações roubadas. Suas ruas labirínticas são intencionalmente projetadas para confundir invasores, protegendo os segredos das guildas que realmente governam a cidade desde as sombras.',
+                type: 'Cidade-Estado',
+                population: 'Aprox. 15.000 habitantes',
+                faction: 'Guilda dos Ladrões / Famílias Nobres',
+                status: 'Ativa mas decadente',
+                dangers: 'Alto - Assassinos, traições, labirintos urbanos, corrupção',
+                notable: 'Mercado das Sombras, Torre do Espião-Mestre, Criptas dos Nobres'
+            },
+            'Lorian': {
+                title: 'Lorian',
+                description: 'Torre do conhecimento proibido, onde arcanistas estudam as artes esquecidas que podem destruir mentes. A Grande Biblioteca contém textos que derrubariam reinos se fossem lidos por pessoas erradas. Muitos que entram nas torres de Lorian nunca mais são vistos, ou retornam irremediavelmente alterados pelo conhecimento que buscaram.',
+                type: 'Academia Arcana',
+                population: 'Aprox. 5.000 (estudiosos, servos e experimentos)',
+                faction: 'Conselho Arcano',
+                status: 'Isolada e perigosa',
+                dangers: 'Extremo - Magia instável, conhecimento corruptor, experimentos descontrolados',
+                notable: 'Grande Biblioteca, Torre da Contemplação, Salões do Silêncio'
+            },
+            'Asterya Central': {
+                title: 'Asterya Central',
+                description: 'O coração do antigo império, agora uma vasta planície de cinzas e ruínas. Dizem que algo dorme sob as ruínas - talvez os restos mumificados dos governantes do antigo império, ou algo muito pior que eles tentaram conter. Expedições raramente retornam, e os que voltam falam de sussurros e sombras que se movem quando não são observadas.',
+                type: 'Ruínas Imperiais',
+                population: 'Nenhuma (oficialmente)',
+                faction: 'Nenhuma (conhecida)',
+                status: 'Amaldiçoada e esquecida',
+                dangers: 'Desconhecido - Assombrações, anomalias temporais, armadilhas antigas',
+                notable: 'Palácio Imperial, Jardins Petrificados, Túmulo do Primeiro Rei'
+            },
+            'Terras do Norte': {
+                title: 'Terras do Norte',
+                description: 'Região de inverno eterno, lar das tribos bárbaras que abraçaram a fúria como religião. Aqui, a força física e a resistência são veneradas acima de tudo. As tribos lutam constantemente entre si por recursos escassos, mas se unem instantaneamente contra qualquer ameaça externa. Dizem que nas cavernas mais profundas dormem bestas da era glacial, aguardando o momento certo para despertar.',
+                type: 'Região Selvagem Glacial',
+                population: 'Tribos nômades (estimativa incerta)',
+                faction: 'Tribos Bárbaras (Clãs separados)',
+                status: 'Hostil e inexplorada',
+                dangers: 'Alto - Clima extremo, bestas pré-históricas, tribos hostis, avalanches',
+                notable: 'Picos Gélidos, Cavernas do Urso Ancestral, Vale dos Clãs'
+            },
+            'Florestas Ancestrais': {
+                title: 'Florestas Ancestrais',
+                description: 'Último remanescente da natureza pré-Purificação. A floresta está viva de uma maneira que as árvores não deveriam estar - elas se movem, sussurram e às vezes atacam intrusos. Os Caçadores da Floresta aprenderam a navegar por estes perigos, mas mesmo eles sabem que a floresta apenas tolera sua presença, não a aceita. Algumas árvores são tão antigas que testemunharam a própria Purificação.',
+                type: 'Floresta Antiga Consciente',
+                population: 'Caçadores, ermitões e criaturas antigas',
+                faction: 'Caçadores da Floresta',
+                status: 'Ativa (e conscientemente hostil)',
+                dangers: 'Moderado-Alto - Flora hostil, criaturas antigas, labirintos naturais',
+                notable: 'Árvore-Mãe, Clareira dos Sussurros, Caminhos Serpentinos'
+            },
+            'Santuários do Sol': {
+                title: 'Santuários do Sol',
+                description: 'Últimos bastiões de fé em um mundo abandonado pelos deuses. Os Devotos mantêm chamas sagradas acesas, esperando um dia reacender a Chama Primordial que uma vez iluminou Asterya antes da Grande Purificação. Cada santuário é uma fortaleza isolada, protegendo relíquias sagradas e conhecimentos antigos sobre o mundo antes da Queda. Os rituais são realizados em segredo, pois a fé é vista como fraqueza em muitas partes de Asterya.',
+                type: 'Complexo Religioso Fortificado',
+                population: 'Devotos, peregrinos e guardiões',
+                faction: 'Devotos do Sol',
+                status: 'Defensiva e isolada',
+                dangers: 'Moderado - Fanáticos, relíquias perigosas, heresias',
+                notable: 'Templo da Chama Eterna, Arquivos Sagrados, Salão das Relíquias'
+            },
+            'Desertos de Cinza': {
+                title: 'Desertos de Cinza',
+                description: 'Vastas extensões de cinzas e poeira radioativa, restos das terras férteis que antes existiam aqui. Tempestades de cinzas varrem a paisagem regularmente, enterrando qualquer coisa que ouse se estabelecer. Ainda assim, algumas facções arriscam a extração de cristais arcanos que se formaram após a Purificação - cristais que podem alimentar máquinas ou destruir cidades, dependendo de como são usados.',
+                type: 'Deserto Tóxico Radioativo',
+                population: 'Nômades, mineradores e sobreviventes endurecidos',
+                faction: 'Vários clãs e guildas de mineradores',
+                status: 'Inóspita mas explorada',
+                dangers: 'Extremo - Radiação, tempestades de cinza, criaturas mutantes, desidratação',
+                notable: 'Torres de Observação, Minas de Cristal, Oásis Envenenados'
+            },
+            'Reino das Sombras': {
+                title: 'Reino das Sombras',
+                description: 'Território onde a luz nunca chegou, mesmo antes da Purificação. Aqui, as leis da realidade se tornam flexíveis, e o tempo flui de maneira irregular. Os poucos que retornam falam de estruturas que não deveriam existir, geometrias impossíveis e sussurros que prometem conhecimento em troca de sanidade.',
+                type: 'Anomalia Geográfica',
+                population: 'Desconhecida (se é que pode ser chamada de população)',
+                faction: 'Nenhuma conhecida',
+                status: 'Proibida e temida',
+                dangers: 'Catastrófico - Realidade instável, entidades desconhecidas, loucura garantida',
+                notable: 'Cidade dos Ecos, Torre sem Topo, Rio que Flui para Cima'
+            },
+            'Picos de Cristal': {
+                title: 'Picos de Cristal',
+                description: 'Montanhas que cresceram da noite para o dia após a Purificação, compostas inteiramente de cristais arcanos. Eles emitem uma luz fantasmagórica que pode ser vista a quilômetros de distância. Os cristais têm propriedades estranhas - alguns curam, outros corrompem, e muitos simplesmente explodem quando tocados.',
+                type: 'Formação Cristalina Anômala',
+                population: 'Mineradores destemidos e estudiosos do arcanismo',
+                faction: 'Guilda dos Mineradores de Cristal',
+                status: 'Explorada com extremo cuidado',
+                dangers: 'Alto-Extremo - Explosões mágicas, criaturas cristalinas, instabilidade geológica',
+                notable: 'Pico Brilhante, Vale dos Cristais Cantantes, Caverna da Resonância'
+            },
+            'Mar dos Sussurros': {
+                title: 'Mar dos Sussurros',
+                description: 'O que antes era um oceano agora é um mar de névoa espessa e água estagnada. Os navegantes que se aventuram muito longe da costa nunca retornam, mas seus navios às vezes reaparecem, vazios e intactos, décadas depois. Dizem que as vozes dos afogados ainda podem ser ouvidas na névoa, chamando por companhia.',
+                type: 'Corpo d\'água Amaldiçoado',
+                population: 'Nenhuma permanente',
+                faction: 'Nenhuma',
+                status: 'Inavegável e perigoso',
+                dangers: 'Alto - Névoa hipnótica, criaturas aquáticas antigas, desaparecimentos inexplicáveis',
+                notable: 'Ilha dos Naufrágios, Farol do Silêncio, Correntes da Memória'
+            }
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            initStars();
+            initShootingStars();
+            initCosmicDust();
+            setupMapInteractions();
+            setupMapControls();
+            setupNavigation();
+            setupScrollIndicator();
+            startAmbientSounds();
+        });
+
+        // Criar estrelas de fundo
+        function initStars() {
+            const container = document.getElementById('shootingStars');
+
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Criar estrelas cadentes
+        function initShootingStars() {
+            const container = document.getElementById('shootingStars');
+
+            function createShootingStar() {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 50 + '%';
+
+                container.appendChild(star);
+
+                star.animate([
+                    { transform: 'translateY(0) translateX(0)', opacity: 0 },
+                    { transform: `translateY(${Math.random() * 200 + 100}px) translateX(${Math.random() * 100 - 50}px)`, opacity: 1 },
+                    { transform: `translateY(${Math.random() * 400 + 200}px) translateX(${Math.random() * 200 - 100}px)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 2000 + 1000,
+                    easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                });
+
+                setTimeout(() => {
+                    if (star.parentNode) {
+                        star.parentNode.removeChild(star);
+                    }
+                }, 3000);
+            }
+
+            setInterval(createShootingStar, 2000);
+
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createShootingStar, i * 600);
+            }
+        }
+
+        // Criar poeira cósmica
+        function initCosmicDust() {
+            const container = document.getElementById('cosmicDust');
+            for (let i = 0; i < 60; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust-particle';
+                dust.style.setProperty('--x-move', Math.random() * 2 - 1);
+                dust.style.width = Math.random() * 8 + 2 + 'px';
+                dust.style.height = dust.style.width;
+                dust.style.left = Math.random() * 100 + '%';
+                dust.style.animationDuration = Math.random() * 25 + 35 + 's';
+                dust.style.animationDelay = Math.random() * 15 + 's';
+                container.appendChild(dust);
+            }
+        }
+
+        // Configurar interações do mapa
+        function setupMapInteractions() {
+            const mapContainer = document.getElementById('mapContainer');
+            const mapImage = document.getElementById('mapImage');
+            const mapPoints = document.querySelectorAll('.map-point-large');
+            const tooltip = document.getElementById('mapTooltip');
+
+            // Pan do mapa com arrastar
+            mapContainer.addEventListener('mousedown', (e) => {
+                if (e.target === mapContainer || e.target === mapImage) {
+                    appState.mapPanning = true;
+                    appState.mapStartX = e.clientX - appState.mapX;
+                    appState.mapStartY = e.clientY - appState.mapY;
+                    mapContainer.style.cursor = 'grabbing';
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (appState.mapPanning) {
+                    e.preventDefault();
+                    appState.mapX = e.clientX - appState.mapStartX;
+                    appState.mapY = e.clientY - appState.mapStartY;
+                    updateMapPosition();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                appState.mapPanning = false;
+                mapContainer.style.cursor = 'grab';
+            });
+
+            // Pan com toque para mobile
+            mapContainer.addEventListener('touchstart', (e) => {
+                if (e.target === mapContainer || e.target === mapImage) {
+                    appState.mapPanning = true;
+                    const touch = e.touches[0];
+                    appState.mapStartX = touch.clientX - appState.mapX;
+                    appState.mapStartY = touch.clientY - appState.mapY;
+                }
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (appState.mapPanning) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    appState.mapX = touch.clientX - appState.mapStartX;
+                    appState.mapY = touch.clientY - appState.mapStartY;
+                    updateMapPosition();
+                }
+            });
+
+            document.addEventListener('touchend', () => {
+                appState.mapPanning = false;
+            });
+
+            // Interações com pontos do mapa
+            mapPoints.forEach(point => {
+                // Clique para abrir modal
+                point.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const location = point.getAttribute('data-location');
+                    showLocationModal(location);
+                    appState.lastClickedPoint = point.id;
+                    
+                    // Efeito visual
+                    point.style.animation = 'none';
+                    setTimeout(() => {
+                        point.style.animation = 'point-pulse-large 3s infinite';
+                    }, 10);
+                });
+
+                // Hover para mostrar tooltip
+                point.addEventListener('mouseenter', (e) => {
+                    const location = point.getAttribute('data-location');
+                    const type = point.getAttribute('data-type');
+                    const typeNames = {
+                        'city': 'Cidade',
+                        'academy': 'Academia',
+                        'ruins': 'Ruínas',
+                        'mountains': 'Montanhas',
+                        'forest': 'Floresta',
+                        'temple': 'Templo',
+                        'wasteland': 'Deserto',
+                        'sea': 'Mar'
+                    };
+                    
+                    tooltip.textContent = `${location} (${typeNames[type] || type})`;
+                    tooltip.style.left = `${e.clientX}px`;
+                    tooltip.style.top = `${e.clientY - 70}px`;
+                    tooltip.classList.add('visible');
+                });
+
+                point.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = `${e.clientX}px`;
+                    tooltip.style.top = `${e.clientY - 70}px`;
+                });
+
+                point.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('visible');
+                });
+
+                // Para mobile (touch)
+                point.addEventListener('touchstart', (e) => {
+                    e.stopPropagation();
+                    const location = point.getAttribute('data-location');
+                    const type = point.getAttribute('data-type');
+                    const typeNames = {
+                        'city': 'Cidade',
+                        'academy': 'Academia',
+                        'ruins': 'Ruínas',
+                        'mountains': 'Montanhas',
+                        'forest': 'Floresta',
+                        'temple': 'Templo',
+                        'wasteland': 'Deserto',
+                        'sea': 'Mar'
+                    };
+                    
+                    tooltip.textContent = `${location} (${typeNames[type] || type})`;
+                    const touch = e.touches[0];
+                    tooltip.style.left = `${touch.clientX}px`;
+                    tooltip.style.top = `${touch.clientY - 70}px`;
+                    tooltip.classList.add('visible');
+                    
+                    setTimeout(() => {
+                        tooltip.classList.remove('visible');
+                    }, 2000);
+                });
+            });
+        }
+
+        // Atualizar posição do mapa
+        function updateMapPosition() {
+            const mapImage = document.getElementById('mapImage');
+            mapImage.style.transform = `translate(${appState.mapX}px, ${appState.mapY}px) scale(${appState.mapZoom})`;
+        }
+
+        // Configurar controles do mapa
+        function setupMapControls() {
+            const mapImage = document.getElementById('mapImage');
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const resetZoomBtn = document.getElementById('resetZoomBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+            // Zoom in
+            zoomInBtn.addEventListener('click', () => {
+                if (appState.mapZoom < 3) {
+                    appState.mapZoom += 0.2;
+                    updateMapPosition();
+                }
+            });
+
+            // Zoom out
+            zoomOutBtn.addEventListener('click', () => {
+                if (appState.mapZoom > 0.5) {
+                    appState.mapZoom -= 0.2;
+                    updateMapPosition();
+                }
+            });
+
+            // Reset zoom e posição
+            resetZoomBtn.addEventListener('click', () => {
+                appState.mapZoom = 1;
+                appState.mapX = 0;
+                appState.mapY = 0;
+                updateMapPosition();
+            });
+
+            // Tela cheia
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+            // Zoom com scroll
+            const mapContainer = document.getElementById('mapContainer');
+            mapContainer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                // Calcular posição do mouse relativa ao mapa
+                const rect = mapContainer.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                // Salvar ponto focal antes do zoom
+                const focalX = (mouseX - appState.mapX) / appState.mapZoom;
+                const focalY = (mouseY - appState.mapY) / appState.mapZoom;
+                
+                // Aplicar zoom
+                if (e.deltaY < 0 && appState.mapZoom < 3) {
+                    appState.mapZoom += 0.1;
+                } else if (e.deltaY > 0 && appState.mapZoom > 0.5) {
+                    appState.mapZoom -= 0.1;
+                }
+                
+                // Ajustar posição para manter o ponto focal
+                appState.mapX = mouseX - focalX * appState.mapZoom;
+                appState.mapY = mouseY - focalY * appState.mapZoom;
+                
+                updateMapPosition();
+            });
+        }
+
+        // Alternar tela cheia
+        function toggleFullscreen() {
+            const mapSection = document.querySelector('.map-section');
+            
+            if (!appState.isFullscreen) {
+                if (mapSection.requestFullscreen) {
+                    mapSection.requestFullscreen();
+                } else if (mapSection.webkitRequestFullscreen) {
+                    mapSection.webkitRequestFullscreen();
+                } else if (mapSection.msRequestFullscreen) {
+                    mapSection.msRequestFullscreen();
+                }
+                appState.isFullscreen = true;
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                appState.isFullscreen = false;
+            }
+        }
+
+        // Mostrar modal de localização
+        function showLocationModal(location) {
+            const data = locationData[location];
+            if (!data) return;
+
+            const modal = document.getElementById('mapModal');
+            const title = document.getElementById('modalLocationTitle');
+            const content = document.getElementById('modalLocationContent');
+
+            // Definir ícone baseado no tipo
+            const typeIcon = getTypeIcon(data.type);
+
+            title.textContent = data.title;
+            content.innerHTML = `
+                <div style="margin-bottom: 2rem;">
+                    <p style="font-size: 1.3rem; line-height: 1.8;">${data.description}</p>
+                </div>
+                
+                <div class="location-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Tipo de Local</div>
+                        <div class="stat-value">
+                            <i class="${typeIcon}" style="margin-right: 0.5rem;"></i>${data.type}
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">População</div>
+                        <div class="stat-value">${data.population}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Facção Dominante</div>
+                        <div class="stat-value">${data.faction}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Status Atual</div>
+                        <div class="stat-value">${data.status}</div>
+                    </div>
+                </div>
+                
+                ${data.notable ? `
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--primary-gold);">
+                    <div style="font-size: 1rem; color: var(--primary-gold); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-landmark"></i> Locais Notáveis
+                    </div>
+                    <div style="font-size: 1.1rem; color: var(--aged-parchment); line-height: 1.6;">
+                        ${data.notable.split(', ').map(item => `<div style="margin-bottom: 0.3rem;">• ${item}</div>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="location-danger">
+                    <div class="danger-title">
+                        <i class="fas fa-skull-crossbones"></i> Nível de Perigo
+                    </div>
+                    <div style="font-size: 1.2rem; color: var(--aged-parchment); font-family: 'Cinzel', serif;">
+                        ${data.dangers}
+                    </div>
+                </div>
+                
+                <button class="explore-btn" onclick="exploreLocation('${location}')">
+                    <i class="fas fa-compass"></i> Explorar Esta Região
+                </button>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Configurar botão de fechar
+            const closeBtn = document.getElementById('modalCloseBtn');
+            closeBtn.onclick = closeModal;
+
+            // Fechar ao clicar fora ou pressionar ESC
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            };
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+
+        // Fechar modal
+        function closeModal() {
+            const modal = document.getElementById('mapModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Remover event listener do ESC
+            document.removeEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        // Explorar localização (função de exemplo)
+        function exploreLocation(location) {
+            alert(`Iniciando exploração de ${location}...\n\nEsta funcionalidade levaria você para uma página detalhada sobre a região no jogo real.`);
+            closeModal();
+        }
+
+        // Obter ícone baseado no tipo
+        function getTypeIcon(type) {
+            switch(type.toLowerCase()) {
+                case 'cidade':
+                case 'cidade-estado': return 'fas fa-city';
+                case 'academia':
+                case 'academia arcana': return 'fas fa-university';
+                case 'ruínas':
+                case 'ruínas imperiais': return 'fas fa-monument';
+                case 'montanhas':
+                case 'região selvagem glacial':
+                case 'formação cristalina anômala': return 'fas fa-mountain';
+                case 'floresta':
+                case 'floresta antiga consciente': return 'fas fa-tree';
+                case 'templo':
+                case 'complexo religioso fortificado': return 'fas fa-place-of-worship';
+                case 'deserto':
+                case 'deserto tóxico radioativo': return 'fas fa-water';
+                case 'mar':
+                case 'corpo d\'água amaldiçoado': return 'fas fa-water';
+                case 'anomalia geográfica': return 'fas fa-exclamation-triangle';
+                default: return 'fas fa-map-marker-alt';
+            }
+        }
+
+        // Configurar navegação
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remover classe active de todos os links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Adicionar classe active ao link clicado
+                    link.classList.add('active');
+                    
+                    // Simular navegação
+                    simulateNavigation(link.textContent);
+                });
+            });
+        }
+
+        // Configurar indicador de scroll
+        function setupScrollIndicator() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            scrollIndicator.addEventListener('click', () => {
+                const loreSection = document.querySelector('.lore-section-full');
+                loreSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Esconder indicador quando o usuário rolar
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    scrollIndicator.style.opacity = '0';
+                    scrollIndicator.style.pointerEvents = 'none';
+                } else {
+                    scrollIndicator.style.opacity = '0.7';
+                    scrollIndicator.style.pointerEvents = 'auto';
+                }
+            });
+        }
+
+        // Simular navegação
+        function simulateNavigation(page) {
+            console.log(`Navegando para: ${page}`);
+            
+            // Efeito visual de transição
+            const transition = document.createElement('div');
+            transition.style.position = 'fixed';
+            transition.style.top = '0';
+            transition.style.left = '0';
+            transition.style.width = '100%';
+            transition.style.height = '100%';
+            transition.style.background = '#000';
+            transition.style.zIndex = '9999';
+            transition.style.opacity = '0';
+            transition.style.transition = 'opacity 0.5s ease';
+            transition.style.pointerEvents = 'none';
+            
+            document.body.appendChild(transition);
+            
+            setTimeout(() => {
+                transition.style.opacity = '1';
+            }, 10);
+            
+            setTimeout(() => {
+                transition.style.opacity = '0';
+            }, 500);
+            
+            setTimeout(() => {
+                document.body.removeChild(transition);
+            }, 1000);
+        }
+
+        // Sons ambientes (simulado)
+        function startAmbientSounds() {
+            console.log('Atmosfera melancólica de Asterya iniciada...');
+            
+            // Em um site real, aqui iniciaria uma trilha sonora atmosférica
+            // const audio = new Audio('ambient.mp3');
+            // audio.loop = true;
+            // audio.volume = 0.3;
+            // audio.play().catch(e => console.log('Audio requer interação do usuário'));
+        }
+
+        // Adicionar efeito de parallax ao scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const mist = document.querySelector('.mist-overlay');
+            const stars = document.querySelector('.shooting-stars');
+            
+            if (mist) {
+                mist.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+            
+            if (stars) {
+                stars.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
+        });
+
+        // Detectar mudança de tela cheia
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            appState.isFullscreen = !appState.isFullscreen;
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            if (fullscreenBtn) {
+                fullscreenBtn.innerHTML = appState.isFullscreen ? 
+                    '<i class="fas fa-compress"></i>' : 
+                    '<i class="fas fa-expand"></i>';
+            }
+        }
+    </script>
+</body>
+
+</html>

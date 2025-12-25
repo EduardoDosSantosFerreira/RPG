@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=UnifrakturMaguntia&family=Cormorant+Garamond:wght@300;400;500;600&family=Eagle+Lake&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -29,6 +29,7 @@
             --ash-gray: #8a8886;
             --moss-green: #556b2f;
             --twilight-blue: #1e3a5f;
+            --ancient-bronze: #cd7f32;
         }
 
         body {
@@ -139,6 +140,72 @@
             opacity: 0;
         }
 
+        /* Novos efeitos: Poeira cósmica */
+        .cosmic-dust {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .dust-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: dust-float linear infinite;
+        }
+
+        @keyframes dust-float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.2;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--x-move) * 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Efeitos de brilho suave */
+        .glow-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            background: radial-gradient(circle at 30% 40%,
+                    rgba(212, 175, 55, 0.05) 0%,
+                    transparent 50%),
+                radial-gradient(circle at 70% 60%,
+                    rgba(139, 0, 0, 0.04) 0%,
+                    transparent 50%);
+            animation: glow-pulse 8s infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
         /* Header de navegação */
         .nav-header {
             padding: 1.5rem 3rem;
@@ -175,6 +242,13 @@
             color: var(--primary-gold);
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
             letter-spacing: 2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            transform: scale(1.05);
         }
 
         .nav-links {
@@ -191,16 +265,34 @@
             padding: 0.5rem 1rem;
             border-bottom: 1px solid transparent;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .nav-link:hover {
             color: var(--primary-gold);
-            border-bottom: 1px solid var(--primary-gold);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .nav-link.active {
             color: var(--primary-gold);
-            border-bottom: 1px solid var(--primary-gold);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
         }
 
         /* Tela principal */
@@ -312,6 +404,12 @@
             transform: translateY(30px);
             animation: section-fade-in 1.5s forwards;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .lore-section:hover {
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
         }
 
         .lore-section:nth-child(1) {
@@ -391,6 +489,23 @@
             margin: 1.5rem 0;
             font-style: italic;
             font-size: 1.3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lore-text.highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(212, 175, 55, 0.05) 50%,
+                    transparent 70%);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .lore-quote {
@@ -434,7 +549,135 @@
             height: fit-content;
         }
 
-        /* Cartões de segredos */
+        /* Mapa do mundo aprimorado */
+        .world-map {
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 7, 3, 0.8),
+                    rgba(10, 5, 2, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .world-map:hover {
+            border-color: var(--primary-gold);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .map-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .map-container {
+            height: 300px;
+            border: 1px solid rgba(139, 69, 19, 0.5);
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            cursor: crosshair;
+            transition: all 0.3s ease;
+        }
+
+        .map-container:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .map-container:hover .map-image {
+            transform: scale(1.02);
+        }
+
+        /* Pontos do mapa aprimorados */
+        .map-point {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            border: 2px solid var(--aged-dark);
+        }
+
+        .map-point:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 1);
+        }
+
+        .map-point::after {
+            content: attr(data-location);
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 5, 2, 0.95);
+            color: var(--primary-gold);
+            padding: 0.5rem 1rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            border: 1px solid var(--primary-gold);
+            border-radius: 3px;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .map-point:hover::after {
+            opacity: 1;
+        }
+
+        /* Efeito de pulso nos pontos */
+        .map-point::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--primary-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: point-pulse 2s infinite;
+        }
+
+        @keyframes point-pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Cartões de segredos aprimorados */
         .secret-card {
             background:
                 linear-gradient(145deg,
@@ -463,6 +706,11 @@
                     rgba(5, 2, 1, 0.95));
         }
 
+        .secret-card.revealed {
+            border-color: var(--primary-gold);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+
         .secret-header {
             display: flex;
             align-items: center;
@@ -473,6 +721,11 @@
         .secret-icon {
             font-size: 1.5rem;
             color: var(--primary-gold);
+            transition: all 0.3s ease;
+        }
+
+        .secret-card:hover .secret-icon {
+            transform: rotate(15deg);
         }
 
         .secret-title {
@@ -502,132 +755,29 @@
             padding: 1rem;
         }
 
-        /* Mapa do mundo */
-        .world-map {
-            background:
-                linear-gradient(145deg,
-                    rgba(15, 7, 3, 0.8),
-                    rgba(10, 5, 2, 0.9));
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .map-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--primary-gold);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        .map-container {
-            height: 300px;
-            background: rgba(5, 2, 1, 0.7);
-            border: 1px solid rgba(139, 69, 19, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .map-landmass {
+        /* Efeito de brilho nas bordas dos cards */
+        .secret-card::before {
+            content: '';
             position: absolute;
-            background: rgba(30, 20, 10, 0.8);
-            border: 1px solid rgba(139, 69, 19, 0.7);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(212, 175, 55, 0.1) 50%,
+                    transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .map-landmass.central {
-            width: 180px;
-            height: 180px;
-            top: 60px;
-            left: 85px;
+        .secret-card:hover::before {
+            transform: translateX(100%);
         }
 
-        .map-landmass.north {
-            width: 100px;
-            height: 100px;
-            top: 20px;
-            left: 150px;
-        }
-
-        .map-landmass.east {
-            width: 120px;
-            height: 120px;
-            top: 90px;
-            left: 220px;
-        }
-
-        .map-landmass.west {
-            width: 80px;
-            height: 80px;
-            top: 120px;
-            left: 20px;
-        }
-
-        .map-landmass.south {
-            width: 140px;
-            height: 140px;
-            top: 180px;
-            left: 120px;
-        }
-
-        .map-point {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--primary-gold);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .map-point:hover::after {
-            content: attr(data-location);
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10, 5, 2, 0.9);
-            color: var(--primary-gold);
-            padding: 0.3rem 0.8rem;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            border: 1px solid var(--primary-gold);
-            border-radius: 3px;
-            z-index: 3;
-        }
-
-        .map-point.drangelic {
-            top: 100px;
-            left: 60px;
-        }
-
-        .map-point.lorian {
-            top: 80px;
-            left: 220px;
-        }
-
-        .map-point.asterya {
-            top: 130px;
-            left: 130px;
-        }
-
-        .map-point.northlands {
-            top: 40px;
-            left: 150px;
-        }
-
-        .map-point.forest {
-            top: 200px;
-            left: 140px;
-        }
-
-        /* Timeline */
+        /* Timeline aprimorada */
         .timeline {
             background:
                 linear-gradient(145deg,
@@ -656,6 +806,12 @@
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             position: relative;
             padding-left: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
         }
 
         .timeline-item:last-child {
@@ -674,6 +830,12 @@
             background: var(--primary-gold);
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 1);
         }
 
         .timeline-year {
@@ -689,7 +851,7 @@
             line-height: 1.5;
         }
 
-        /* Glossário */
+        /* Glossário aprimorado */
         .glossary {
             background:
                 linear-gradient(145deg,
@@ -718,10 +880,12 @@
             transition: all 0.3s ease;
             padding: 0.5rem;
             border-radius: 3px;
+            position: relative;
         }
 
         .glossary-term:hover {
             background: rgba(212, 175, 55, 0.1);
+            transform: translateX(5px);
         }
 
         .term-name {
@@ -738,6 +902,11 @@
             content: '✦';
             color: var(--primary-gold);
             font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .glossary-term:hover .term-name::before {
+            transform: rotate(90deg);
         }
 
         .term-definition {
@@ -779,6 +948,84 @@
             }
         }
 
+        /* Novo: Modal de informações do mapa */
+        .map-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 1, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .map-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .map-modal-content {
+            background: linear-gradient(145deg,
+                    rgba(20, 10, 5, 0.98),
+                    rgba(10, 5, 2, 0.98));
+            border: 2px solid var(--primary-gold);
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+
+        .map-modal-overlay.active .map-modal-content {
+            transform: scale(1);
+        }
+
+        .map-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .map-modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+
+        .map-modal-close {
+            background: none;
+            border: none;
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .map-modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .map-modal-body {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--aged-parchment);
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .nav-header {
@@ -789,6 +1036,8 @@
 
             .nav-links {
                 gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .page-title {
@@ -810,6 +1059,30 @@
             .lore-text {
                 font-size: 1.1rem;
             }
+
+            .map-container {
+                height: 250px;
+            }
+        }
+
+        /* Estilos do lightbox simples para a imagem do mapa */
+        .image-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            cursor: zoom-out;
+        }
+
+        .image-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            border: 4px solid rgba(212, 175, 55, 0.12);
+            object-fit: contain;
         }
     </style>
 </head>
@@ -819,7 +1092,24 @@
     <div class="background-effect"></div>
     <div class="mist-overlay"></div>
     <div class="shooting-stars" id="shootingStars"></div>
+    <div class="cosmic-dust" id="cosmicDust"></div>
+    <div class="glow-effect"></div>
     <div class="page-transition"></div>
+
+    <!-- Modal do mapa (informações) -->
+    <div class="map-modal-overlay" id="mapModal">
+        <div class="map-modal-content">
+            <div class="map-modal-header">
+                <h3 class="map-modal-title" id="modalLocationTitle">Localização</h3>
+                <button class="map-modal-close" id="modalCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="map-modal-body" id="modalLocationContent">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <!-- Header de navegação -->
     <header class="nav-header">
@@ -955,25 +1245,33 @@
 
             <!-- Barra lateral -->
             <div class="sidebar">
-                <!-- Mapa do mundo -->
+                <!-- Mapa do mundo aprimorado -->
                 <div class="world-map">
-                    <h3 class="map-title">Mapa de Asterya</h3>
-                    <div class="map-container">
-                        <div class="map-landmass central"></div>
-                        <div class="map-landmass north"></div>
-                        <div class="map-landmass east"></div>
-                        <div class="map-landmass west"></div>
-                        <div class="map-landmass south"></div>
+                    <h3 class="map-title">
+                        <i class="fas fa-map-marked-alt"></i> Mapa de Asterya
+                    </h3>
+                    <div class="map-container" id="mapContainer">
+                        <img src="img/cenarios/mapa.png" alt="Mapa de Asterya" class="map-image" id="mapImage">
 
-                        <div class="map-point drangelic" data-location="Drangleic"></div>
-                        <div class="map-point lorian" data-location="Lorian"></div>
-                        <div class="map-point asterya" data-location="Asterya Central"></div>
-                        <div class="map-point northlands" data-location="Terras do Norte"></div>
-                        <div class="map-point forest" data-location="Florestas Ancestrais"></div>
+                        <!-- Pontos de interesse (posições aproximadas) -->
+                        <div class="map-point" id="pointDrangleic" data-location="Drangleic"
+                            style="top: 65%; left: 25%;" data-type="city"></div>
+                        <div class="map-point" id="pointLorian" data-location="Lorian" style="top: 40%; left: 70%;"
+                            data-type="academy"></div>
+                        <div class="map-point" id="pointAsterya" data-location="Asterya Central"
+                            style="top: 50%; left: 45%;" data-type="ruins"></div>
+                        <div class="map-point" id="pointNorthlands" data-location="Terras do Norte"
+                            style="top: 20%; left: 50%;" data-type="region"></div>
+                        <div class="map-point" id="pointForest" data-location="Florestas Ancestrais"
+                            style="top: 75%; left: 60%;" data-type="forest"></div>
+                        <div class="map-point" id="pointSunSanctuary" data-location="Santuários do Sol"
+                            style="top: 55%; left: 30%;" data-type="temple"></div>
+                        <div class="map-point" id="pointAshenWastes" data-location="Desertos de Cinza"
+                            style="top: 35%; left: 15%;" data-type="wasteland"></div>
                     </div>
                 </div>
 
-                <!-- Segredos -->
+                <!-- Segredos aprimorados -->
                 <div class="secret-card hidden" id="secret1">
                     <div class="secret-header">
                         <div class="secret-icon"><i class="fas fa-lock"></i></div>
@@ -1004,62 +1302,64 @@
                     </div>
                 </div>
 
-                <!-- Timeline -->
+                <!-- Timeline aprimorada -->
                 <div class="timeline">
                     <h3 class="timeline-title">Linha do Tempo</h3>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item" data-year="-3000">
                         <div class="timeline-year">Era do Sol Eterno</div>
                         <div class="timeline-event">Asterya floresce sob a luz perpétua</div>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item" data-year="-500">
                         <div class="timeline-year">O Primeiro Crepúsculo</div>
                         <div class="timeline-event">O Sol começa a enfraquecer, pânico se espalha</div>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item" data-year="0">
                         <div class="timeline-year">A Grande Purificação</div>
                         <div class="timeline-event">Evento cataclísmico, 90% da população perece</div>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item" data-year="100">
                         <div class="timeline-year">Era das Cinzas</div>
                         <div class="timeline-event">Sobreviventes se agrupam, novas facções surgem</div>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item" data-year="300">
                         <div class="timeline-year">Tempo Presente</div>
                         <div class="timeline-event">O mundo está à beira de uma nova transformação</div>
                     </div>
                 </div>
 
-                <!-- Glossário -->
+                <!-- Glossário aprimorado -->
                 <div class="glossary">
                     <h3 class="glossary-title">Glossário</h3>
 
                     <div class="glossary-term" data-term="purificacao">
                         <div class="term-name">A Grande Purificação</div>
                         <div class="term-definition">Evento catastrófico que dizimou a civilização de Asterya. Sua
-                            verdadeira natureza é desconhecida e controversa.</div>
+                            verdadeira natureza é desconhecida e controversa. Alguns acreditam que foi um ritual arcano,
+                            outros uma guerra divina.</div>
                     </div>
 
                     <div class="glossary-term" data-term="crepusculo">
                         <div class="term-name">Crepúsculo Perpétuo</div>
                         <div class="term-definition">Estado atual do céu de Asterya, nem dia completo nem noite total,
-                            apenas um eterno pôr-do-sol.</div>
+                            apenas um eterno pôr-do-sol. A luz solar nunca mais foi vista após a Purificação.</div>
                     </div>
 
                     <div class="glossary-term" data-term="chama">
                         <div class="term-name">Chama Primordial</div>
                         <div class="term-definition">Fonte de luz e calor antes da Purificação. Os Devotos do Sol buscam
-                            reacendê-la.</div>
+                            reacendê-la em seus santuários, acreditando que isso pode restaurar o mundo.</div>
                     </div>
 
                     <div class="glossary-term" data-term="arcano">
                         <div class="term-name">Arcanismo Proibido</div>
                         <div class="term-definition">Forma de magia que manipula realidades fundamentais, perigosa e
-                            instável.</div>
+                            instável. Estudo restrito à cidade de Lorian, onde estudiosos arriscam suas mentes por
+                            conhecimento.</div>
                     </div>
                 </div>
             </div>
@@ -1067,21 +1367,118 @@
     </main>
 
     <script>
+        // Estado da aplicação (removido controle de zoom do mapa)
+        const appState = {
+            revealedSecrets: new Set(),
+            activeModal: null,
+            lastClickedPoint: null
+        };
+
+        // Dados das localizações
+        const locationData = {
+            'Drangleic': {
+                title: 'Drangleic',
+                description: 'Cidade-estado nas sombras, governada por guildas secretas e ladrões. Sobrevive através de comércio ilícito e informações roubadas. As ruas são labirintos intencionais, projetados para confundir invasores e proteger os segredos das famílias nobres que realmente controlam a cidade.',
+                type: 'Cidade',
+                population: 'Aprox. 15.000',
+                faction: 'Guilda dos Ladrões',
+                status: 'Ativa',
+                dangers: 'Alto - Assassinos, traições, labirintos urbanos'
+            },
+            'Lorian': {
+                title: 'Lorian',
+                description: 'Último bastião do conhecimento arcano. Suas torres abrigam estudiosos que buscam entender (e talvez reverter) a Queda. A Biblioteca Proibida contém textos que podem destruir mentes não preparadas. Muitos que entram nas torres de Lorian nunca mais são vistos, ou retornam irremediavelmente alterados.',
+                type: 'Academia Arcana',
+                population: 'Aprox. 5.000 (estudiosos e servos)',
+                faction: 'Conselho Arcano',
+                status: 'Isolada',
+                dangers: 'Extremo - Magia instável, conhecimento corruptor'
+            },
+            'Asterya Central': {
+                title: 'Asterya Central',
+                description: 'O coração do antigo império, agora uma vasta planície de cinzas e ruínas. Dizem que algo dorme sob as ruínas - talvez os restos dos governantes do antigo império, ou algo que eles tentaram conter. Expedições raramente retornam, e os que voltam falam de sussurros e sombras que se movem.',
+                type: 'Ruínas Imperiais',
+                population: 'Nenhuma (oficialmente)',
+                faction: 'Nenhuma',
+                status: 'Amaldiçoada',
+                dangers: 'Desconhecido - Assombrações, anomalias temporais'
+            },
+            'Terras do Norte': {
+                title: 'Terras do Norte',
+                description: 'Região de inverno eterno, lar das tribos bárbaras que abraçaram a fúria como religião. Aqui, a força física e a resistência são veneradas acima de tudo. As tribos lutam constantemente entre si, mas se unem contra ameaças externas. Dizem que nas cavernas mais profundas dormem bestas da era glacial.',
+                type: 'Região Selvagem',
+                population: 'Tribos nômades',
+                faction: 'Tribos Bárbaras',
+                status: 'Hostil',
+                dangers: 'Alto - Clima extremo, bestas pré-históricas, tribos hostis'
+            },
+            'Florestas Ancestrais': {
+                title: 'Florestas Ancestrais',
+                description: 'Último remanescente da natureza pré-Purificação. A floresta está viva de uma maneira que as árvores não deveriam estar. Elas se movem, sussurram e às vezes atacam. Os Caçadores da Floresta aprenderam a navegar por estes perigos, mas mesmo eles sabem que a floresta apenas tolera sua presença.',
+                type: 'Floresta Antiga',
+                population: 'Caçadores e ermitões',
+                faction: 'Caçadores da Floresta',
+                status: 'Ativa (e consciente)',
+                dangers: 'Moderado-Alto - Flora hostil, criaturas antigas'
+            },
+            'Santuários do Sol': {
+                title: 'Santuários do Sol',
+                description: 'Últimos bastiões de fé em um mundo abandonado pelos deuses. Os Devotos mantêm chamas sagradas acesas, esperando um dia reacender a Chama Primordial. Cada santuário é uma fortaleza isolada, protegendo relíquias sagradas e conhecimentos antigos sobre o mundo antes da Queda.',
+                type: 'Complexo Religioso',
+                population: 'Devotos e peregrinos',
+                faction: 'Devotos do Sol',
+                status: 'Defensiva',
+                dangers: 'Moderado - Fanáticos, relíquias perigosas'
+            },
+            'Desertos de Cinza': {
+                title: 'Desertos de Cinza',
+                description: 'Vastas extensões de cinzas e poeira radioativa, restos das terras férteis que antes existiam aqui. Tempestades de cinzas varrem a paisagem regularmente, enterrando qualquer coisa que ouse se estabelecer. Ainda assim, algumas facções arriscam a extração de cristais arcanos que se formaram após a Purificação.',
+                type: 'Deserto Tóxico',
+                population: 'Nômades e mineradores',
+                faction: 'Vários clãs',
+                status: 'Inóspita',
+                dangers: 'Extremo - Radiação, tempestades de cinza, criaturas mutantes'
+            }
+        };
+
+        // Segredos
+        const secretsData = [
+            {
+                id: 'secret1',
+                title: 'Segredo dos Sussurros',
+                content: 'Os sussurros que ecoam nas ruínas não são apenas o vento. São memórias presas, fragmentos de consciências que não conseguiram partir quando Asterya caiu. Alguns estudiosos acreditam que é possível comunicar-se com elas, mas o preço é um pedaço da própria sanidade. O ritual requer sangue da linhagem real extinta e é realizado apenas durante o Eclipse das Almas, uma vez a cada século.'
+            },
+            {
+                id: 'secret2',
+                title: 'A Profecia Esquecida',
+                content: 'Antes da Queda, os Videntes de Lorian previram que "do coração da escuridão, uma nova luz nascerá, mas seu brilho será pior que a escuridão que veio antes". A profecia foi suprimida pelas autoridades, e todos os registros foram destruídos. Exceto um - uma tabuleta de obsidiana enterrada sob a Grande Biblioteca. Ela detalha não apenas a queda, mas sete sinais que precederão o "Segundo Despertar". Três desses sinais já ocorreram.'
+            },
+            {
+                id: 'secret3',
+                title: 'Verdade sobre a Purificação',
+                content: 'A Grande Purificação não foi um acidente ou um ato divino. Foi um ritual deliberado realizado por um culto que acreditava que destruir o mundo era a única maneira de salvá-lo de algo muito pior. Os Arquitetas do Vazio descobriram uma entidade adormecida no núcleo de Asterya - um ser que se alimentava da própria realidade. Eles calcularam que um cataclismo controlado seria menos devastador que seu despertar. Eles podem ter tido razão, pois a entidade ainda dorme... por enquanto.'
+            }
+        ];
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             initStars();
             initShootingStars();
+            initCosmicDust();
             setupSecretCards();
             setupGlossary();
             setupMapPoints();
+            setupMapClickToEnlarge(); // nova função simples de clique para ampliar
+            setupTimeline();
             startAmbientSounds();
+            setupNavigation();
         });
 
         // Criar estrelas de fundo
         function initStars() {
             const container = document.getElementById('shootingStars');
 
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 150; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.width = Math.random() * 3 + 1 + 'px';
@@ -1125,35 +1522,33 @@
             }
 
             // Criar estrelas cadentes em intervalos
-            setInterval(createShootingStar, 5000);
+            setInterval(createShootingStar, 3000);
 
             // Criar algumas no início
-            for (let i = 0; i < 3; i++) {
-                setTimeout(createShootingStar, i * 1000);
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createShootingStar, i * 800);
+            }
+        }
+
+        // Criar poeira cósmica
+        function initCosmicDust() {
+            const container = document.getElementById('cosmicDust');
+            for (let i = 0; i < 40; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust-particle';
+                dust.style.setProperty('--x-move', Math.random() * 2 - 1);
+                dust.style.width = Math.random() * 6 + 2 + 'px';
+                dust.style.height = dust.style.width;
+                dust.style.left = Math.random() * 100 + '%';
+                dust.style.animationDuration = Math.random() * 20 + 30 + 's';
+                dust.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(dust);
             }
         }
 
         // Configurar cartões de segredos
         function setupSecretCards() {
-            const secrets = [
-                {
-                    id: 'secret1',
-                    title: 'Segredo dos Sussurros',
-                    content: 'Os sussurros que ecoam nas ruínas não são apenas o vento. São memórias presas, fragmentos de consciências que não conseguiram partir quando Asterya caiu. Alguns estudiosos acreditam que é possível comunicar-se com elas, mas o preço é um pedaço da própria sanidade.'
-                },
-                {
-                    id: 'secret2',
-                    title: 'A Profecia Esquecida',
-                    content: 'Antes da Queda, os Videntes de Lorian previram que "do coração da escuridão, uma nova luz nascerá, mas seu brilho será pior que a escuridão que veio antes". A profecia foi suprimida pelas autoridades, e todos os registros foram destruídos. Exceto um.'
-                },
-                {
-                    id: 'secret3',
-                    title: 'Verdade sobre a Purificação',
-                    content: 'A Grande Purificação não foi um acidente ou um ato divino. Foi um ritual deliberado realizado por um culto que acreditava que destruir o mundo era a única maneira de salvá-lo de algo muito pior. Eles podem ter tido razão.'
-                }
-            ];
-
-            secrets.forEach(secret => {
+            secretsData.forEach(secret => {
                 const card = document.getElementById(secret.id);
                 if (!card) return;
 
@@ -1164,16 +1559,91 @@
                         content.classList.remove('revealed');
                         content.innerHTML = 'Clique para revelar um segredo de Asterya...';
                         card.classList.add('hidden');
+                        card.classList.remove('revealed');
+                        appState.revealedSecrets.delete(secret.id);
                     } else {
                         content.classList.add('revealed');
                         content.innerHTML = secret.content;
                         card.classList.remove('hidden');
+                        card.classList.add('revealed');
+                        appState.revealedSecrets.add(secret.id);
 
-                        // Efeito sonoro (simulado)
-                        playSecretSound();
+                        // Efeito visual
+                        playSecretEffect(card);
                     }
                 });
             });
+        }
+
+        // Efeito para revelação de segredo
+        function playSecretEffect(card) {
+            // Criar partículas de brilho
+            for (let i = 0; i < 15; i++) {
+                createGlowParticle(card);
+            }
+
+            // Efeito de brilho
+            const glow = document.createElement('div');
+            glow.style.position = 'absolute';
+            glow.style.top = '0';
+            glow.style.left = '0';
+            glow.style.width = '100%';
+            glow.style.height = '100%';
+            glow.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%)';
+            glow.style.zIndex = '1';
+            glow.style.pointerEvents = 'none';
+            glow.style.opacity = '0';
+            glow.style.animation = 'glowFade 1s ease-out';
+
+            // Adicionar estilo para animação
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes glowFade {
+                    0% { opacity: 1; }
+                    100% { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            card.appendChild(glow);
+
+            setTimeout(() => {
+                if (glow.parentNode) {
+                    glow.parentNode.removeChild(glow);
+                }
+                document.head.removeChild(style);
+            }, 1000);
+        }
+
+        // Criar partícula de brilho
+        function createGlowParticle(card) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '5px';
+            particle.style.height = '5px';
+            particle.style.background = 'radial-gradient(circle, #d4af37 0%, transparent 70%)';
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.zIndex = '2';
+            particle.style.pointerEvents = 'none';
+
+            card.appendChild(particle);
+
+            // Animação
+            particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 1000);
         }
 
         // Configurar glossário
@@ -1203,72 +1673,252 @@
             const points = document.querySelectorAll('.map-point');
 
             points.forEach(point => {
-                point.addEventListener('click', () => {
+                point.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const location = point.getAttribute('data-location');
-                    showLocationInfo(location);
+                    showLocationModal(location);
+                    appState.lastClickedPoint = point.id;
+
+                    // Efeito visual
+                    point.style.animation = 'none';
+                    setTimeout(() => {
+                        point.style.animation = 'point-pulse 2s infinite';
+                    }, 10);
                 });
             });
         }
 
-        // Mostrar informações da localização
-        function showLocationInfo(location) {
-            const info = {
-                'Drangleic': 'Cidade-estado nas sombras, governada por guildas secretas e ladrões. Sobrevive através de comércio ilícito e informações roubadas.',
-                'Lorian': 'Último bastião do conhecimento arcano. Suas torres abrigam estudiosos que buscam entender (e talvez reverter) a Queda.',
-                'Asterya Central': 'O coração do antigo império, agora uma vasta planície de cinzas e ruínas. Dizem que algo dorme sob as ruínas.',
-                'Terras do Norte': 'Região de inverno eterno, lar das tribos bárbaras que abraçaram a fúria como religião.',
-                'Florestas Ancestrais': 'Último remanescente da natureza pré-Purificação. A floresta está viva de uma maneira que as árvores não deveriam estar.'
+        // Nova função: clique na imagem para ampliar (lightbox simples)
+        function setupMapClickToEnlarge() {
+            const mapImage = document.getElementById('mapImage');
+            if (!mapImage) return;
+
+            mapImage.style.cursor = 'zoom-in';
+            mapImage.addEventListener('click', () => {
+                const overlay = document.createElement('div');
+                overlay.className = 'image-overlay';
+                const img = document.createElement('img');
+                img.src = mapImage.src;
+                img.alt = mapImage.alt || 'Mapa de Asterya';
+                overlay.appendChild(img);
+
+                // clicar no overlay fecha
+                overlay.addEventListener('click', () => {
+                    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+                });
+
+                document.body.appendChild(overlay);
+            });
+        }
+
+        // Configurar timeline
+        function setupTimeline() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+
+            timelineItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const year = item.getAttribute('data-year');
+                    const eventText = item.querySelector('.timeline-event').textContent;
+
+                    showTimelineModal(year, eventText);
+                });
+            });
+        }
+
+        // Mostrar modal de localização
+        function showLocationModal(location) {
+            const data = locationData[location];
+            if (!data) return;
+
+            const modal = document.getElementById('mapModal');
+            const title = document.getElementById('modalLocationTitle');
+            const content = document.getElementById('modalLocationContent');
+
+            // Definir ícone baseado no tipo
+            const typeIcon = getTypeIcon(data.type);
+
+            title.textContent = data.title;
+            content.innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <p>${data.description}</p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.8rem; border-left: 3px solid var(--primary-gold);">
+                        <div style="font-size: 0.9rem; color: var(--primary-gold); margin-bottom: 0.3rem;">Tipo</div>
+                        <div style="font-size: 1rem; color: var(--aged-parchment);">
+                            <i class="${typeIcon}" style="margin-right: 0.5rem;"></i>${data.type}
+                        </div>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.8rem; border-left: 3px solid var(--primary-gold);">
+                        <div style="font-size: 0.9rem; color: var(--primary-gold); margin-bottom: 0.3rem;">População</div>
+                        <div style="font-size: 1rem; color: var(--aged-parchment);">${data.population}</div>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.8rem; border-left: 3px solid var(--primary-gold);">
+                        <div style="font-size: 0.9rem; color: var(--primary-gold); margin-bottom: 0.3rem;">Facção</div>
+                        <div style="font-size: 1rem; color: var(--aged-parchment);">${data.faction}</div>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.8rem; border-left: 3px solid var(--primary-gold);">
+                        <div style="font-size: 0.9rem; color: var(--primary-gold); margin-bottom: 0.3rem;">Status</div>
+                        <div style="font-size: 1rem; color: var(--aged-parchment);">${data.status}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(139, 0, 0, 0.1); border-left: 3px solid var(--blood-red);">
+                    <div style="font-size: 0.9rem; color: var(--blood-red); margin-bottom: 0.3rem;">
+                        <i class="fas fa-skull-crossbones"></i> Nível de Perigo
+                    </div>
+                    <div style="font-size: 1rem; color: var(--aged-parchment);">${data.dangers}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            appState.activeModal = 'location';
+
+            // Configurar botão de fechar
+            const closeBtn = document.getElementById('modalCloseBtn');
+            closeBtn.onclick = () => {
+                modal.classList.remove('active');
+                appState.activeModal = null;
             };
 
-            if (info[location]) {
-                // Criar modal simples
-                const modal = document.createElement('div');
-                modal.style.position = 'fixed';
-                modal.style.top = '50%';
-                modal.style.left = '50%';
-                modal.style.transform = 'translate(-50%, -50%)';
-                modal.style.background = 'linear-gradient(145deg, rgba(20, 10, 5, 0.95), rgba(10, 5, 2, 0.98))';
-                modal.style.border = '2px solid var(--primary-gold)';
-                modal.style.padding = '2rem';
-                modal.style.zIndex = '1000';
-                modal.style.maxWidth = '500px';
-                modal.style.width = '90%';
-                modal.style.boxShadow = '0 0 50px rgba(212, 175, 55, 0.5)';
-                modal.style.backdropFilter = 'blur(10px)';
+            // Fechar ao clicar fora
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    appState.activeModal = null;
+                }
+            };
+        }
 
-                modal.innerHTML = `
-                    <h3 style="font-family: 'Cinzel', serif; color: var(--primary-gold); margin-bottom: 1rem; font-size: 1.8rem;">${location}</h3>
-                    <p style="color: var(--aged-parchment); line-height: 1.6; margin-bottom: 1.5rem;">${info[location]}</p>
-                    <button style="background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 0.5rem 1.5rem; font-family: 'Cinzel', serif; cursor: pointer; float: right;">Fechar</button>
-                `;
+        // Mostrar modal da timeline
+        function showTimelineModal(year, event) {
+            const modal = document.getElementById('mapModal');
+            const title = document.getElementById('modalLocationTitle');
+            const content = document.getElementById('modalLocationContent');
 
-                document.body.appendChild(modal);
+            const era = year < 0 ? 'Antes da Purificação' : 'Após a Purificação';
+            const absoluteYear = Math.abs(year);
 
-                // Fechar modal
-                const closeBtn = modal.querySelector('button');
-                closeBtn.addEventListener('click', () => {
-                    document.body.removeChild(modal);
-                });
+            title.textContent = `Ano ${absoluteYear} ${era}`;
+            content.innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <p style="font-size: 1.2rem; color: var(--primary-gold); margin-bottom: 1rem;">${event}</p>
+                    <p>Este evento marcou um ponto crucial na história de Asterya. Os registros desta época são fragmentados e muitas vezes contraditórios, mas historiadores concordam que foi um período de transformação fundamental para o mundo.</p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.8rem; border-left: 3px solid var(--primary-gold);">
+                        <div style="font-size: 0.9rem; color: var(--primary-gold); margin-bottom: 0.3rem;">Período</div>
+                        <div style="font-size: 1rem; color: var(--aged-parchment);">${era}</div>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.8rem; border-left: 3px solid var(--primary-gold);">
+                        <div style="font-size: 0.9rem; color: var(--primary-gold); margin-bottom: 0.3rem;">Impacto</div>
+                        <div style="font-size: 1rem; color: var(--aged-parchment);">
+                            ${year == 0 ? 'Cataclísmico' : year < 0 ? 'Significativo' : 'Moderado'}
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(30, 58, 95, 0.1); border-left: 3px solid var(--twilight-blue);">
+                    <div style="font-size: 0.9rem; color: var(--twilight-blue); margin-bottom: 0.3rem;">
+                        <i class="fas fa-scroll"></i> Registros Sobreviventes
+                    </div>
+                    <div style="font-size: 1rem; color: var(--aged-parchment);">
+                        ${year == 0 ? 'Fragmentados e contraditórios' :
+                    year < -500 ? 'Míticos e lendários' :
+                        'Parcialmente preservados'}
+                    </div>
+                </div>
+            `;
 
-                // Fechar ao clicar fora
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        document.body.removeChild(modal);
-                    }
-                });
+            modal.classList.add('active');
+            appState.activeModal = 'timeline';
+
+            // Configurar botão de fechar
+            const closeBtn = document.getElementById('modalCloseBtn');
+            closeBtn.onclick = () => {
+                modal.classList.remove('active');
+                appState.activeModal = null;
+            };
+
+            // Fechar ao clicar fora
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    appState.activeModal = null;
+                }
+            };
+        }
+
+        // Obter ícone baseado no tipo
+        function getTypeIcon(type) {
+            switch (type.toLowerCase()) {
+                case 'cidade': return 'fas fa-city';
+                case 'academia': return 'fas fa-university';
+                case 'ruínas': return 'fas fa-monument';
+                case 'região': return 'fas fa-mountain';
+                case 'floresta': return 'fas fa-tree';
+                case 'templo': return 'fas fa-place-of-worship';
+                case 'wasteland': return 'fas fa-water';
+                default: return 'fas fa-map-marker-alt';
             }
         }
 
-        // Efeito sonoro para segredos (simulado)
-        function playSecretSound() {
-            // Em um ambiente real, aqui tocaria um som
-            console.log('Segredo revelado!');
+        // Configurar navegação
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // Remover classe active de todos os links
+                    navLinks.forEach(l => l.classList.remove('active'));
+
+                    // Adicionar classe active ao link clicado
+                    link.classList.add('active');
+
+                    // Simular navegação
+                    simulateNavigation(link.textContent);
+                });
+            });
+        }
+
+        // Simular navegação
+        function simulateNavigation(page) {
+            // Em um site real, aqui carregaria o conteúdo da página
+            console.log(`Navegando para: ${page}`);
+
+            // Efeito visual de transição
+            const transition = document.createElement('div');
+            transition.style.position = 'fixed';
+            transition.style.top = '0';
+            transition.style.left = '0';
+            transition.style.width = '100%';
+            transition.style.height = '100%';
+            transition.style.background = '#000';
+            transition.style.zIndex = '9999';
+            transition.style.opacity = '0';
+            transition.style.transition = 'opacity 0.5s ease';
+            transition.style.pointerEvents = 'none';
+
+            document.body.appendChild(transition);
+
+            // Animação
+            setTimeout(() => {
+                transition.style.opacity = '1';
+            }, 10);
+
+            setTimeout(() => {
+                transition.style.opacity = '0';
+            }, 500);
+
+            setTimeout(() => {
+                document.body.removeChild(transition);
+            }, 1000);
         }
 
         // Sons ambientes (simulado)
         function startAmbientSounds() {
             // Em um ambiente real, aqui iniciaria uma trilha sonora atmosférica
-            console.log('Iniciando atmosfera sonora...');
+            console.log('Iniciando atmosfera sonora melancólica...');
         }
 
         // Efeito de digitação para textos (opcional)
@@ -1287,7 +1937,7 @@
             type();
         }
 
-        // Aplicar efeito de digitação em algumas seções (opcional)
+        // Inicializar efeito de digitação na primeira seção
         setTimeout(() => {
             const firstParagraph = document.querySelector('.lore-text');
             if (firstParagraph) {
@@ -1295,6 +1945,21 @@
                 typeWriterEffect(firstParagraph, originalText, 30);
             }
         }, 2000);
+
+        // Adicionar efeito de parallax ao scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const mist = document.querySelector('.mist-overlay');
+            const stars = document.querySelector('.shooting-stars');
+
+            if (mist) {
+                mist.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+
+            if (stars) {
+                stars.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
+        });
     </script>
 </body>
 
