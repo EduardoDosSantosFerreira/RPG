@@ -515,89 +515,6 @@
             transform: translateY(0);
         }
 
-        /* Controles do mapa */
-        .map-controls-large {
-            position: absolute;
-            bottom: 3rem;
-            right: 3rem;
-            z-index: 20;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .map-control-btn-large {
-            width: 50px;
-            height: 50px;
-            background: rgba(10, 5, 2, 0.9);
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .map-control-btn-large:hover {
-            background: rgba(212, 175, 55, 0.2);
-            transform: scale(1.15);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-        }
-
-        /* Legenda do mapa */
-        .map-legend {
-            position: absolute;
-            bottom: 3rem;
-            left: 3rem;
-            background: rgba(10, 5, 2, 0.9);
-            border: 1px solid var(--primary-gold);
-            padding: 1.5rem;
-            z-index: 20;
-            max-width: 300px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .legend-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--primary-gold);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .legend-items {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1rem;
-            color: var(--aged-parchment);
-        }
-
-        .legend-icon {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .legend-icon.city { background: #d4af37; }
-        .legend-icon.ruins { background: #8b0000; }
-        .legend-icon.forest { background: #556b2f; }
-        .legend-icon.mountains { background: #8a8886; }
-        .legend-icon.temple { background: #cd7f32; }
-        .legend-icon.wasteland { background: #5a0000; }
-
         /* Seção de lore abaixo do mapa */
         .lore-section-full {
             padding: 4rem 3rem;
@@ -905,17 +822,6 @@
             .map-subtitle {
                 font-size: 1.2rem;
             }
-
-            .map-controls-large {
-                bottom: 2rem;
-                right: 2rem;
-            }
-
-            .map-legend {
-                bottom: 2rem;
-                left: 2rem;
-                max-width: 250px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -937,21 +843,6 @@
 
             .map-title-overlay {
                 padding: 2rem 1rem;
-            }
-
-            .map-controls-large {
-                bottom: 1rem;
-                right: 1rem;
-            }
-
-            .map-control-btn-large {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-
-            .map-legend {
-                display: none;
             }
 
             .lore-section-full {
@@ -1062,51 +953,17 @@
                 <!-- Tooltip (será criado dinamicamente) -->
                 <div class="map-point-tooltip" id="mapTooltip"></div>
 
-                <!-- Controles de zoom -->
-                <div class="map-controls-large">
-                    <button class="map-control-btn-large" id="zoomInBtn">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                    <button class="map-control-btn-large" id="zoomOutBtn">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
-                    <button class="map-control-btn-large" id="resetZoomBtn">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
-                    <button class="map-control-btn-large" id="fullscreenBtn">
+                <!-- Botão de tela cheia -->
+                <div class="map-controls-large" style="position: absolute; bottom: 3rem; right: 3rem; z-index: 20;">
+                    <button class="map-control-btn-large" id="fullscreenBtn" 
+                            style="width: 50px; height: 50px; background: rgba(10, 5, 2, 0.9);
+                                   border: 2px solid var(--primary-gold); color: var(--primary-gold);
+                                   font-family: 'Cinzel', serif; font-size: 1.3rem; cursor: pointer;
+                                   display: flex; align-items: center; justify-content: center;
+                                   transition: all 0.3s ease; border-radius: 50%;
+                                   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);">
                         <i class="fas fa-expand"></i>
                     </button>
-                </div>
-
-                <!-- Legenda do mapa -->
-                <div class="map-legend">
-                    <h3 class="legend-title">Legenda</h3>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-icon city"></div>
-                            <span>Cidades e Fortalezas</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon ruins"></div>
-                            <span>Ruínas Antigas</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon forest"></div>
-                            <span>Florestas e Bosques</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon mountains"></div>
-                            <span>Montanhas e Cordilheiras</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon temple"></div>
-                            <span>Templos e Santuários</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon wasteland"></div>
-                            <span>Terras Devastadas</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -1296,7 +1153,7 @@
             },
             'Picos de Cristal': {
                 title: 'Picos de Cristal',
-                description: 'Montanhas que cresceram da noite para o dia após a Purificação, compostas inteiramente de cristais arcanos. Eles emitem uma luz fantasmagórica que pode ser vista a quilômetros de distância. Os cristais têm propriedades estranhas - alguns curam, outros corrompem, e muitos simplesmente explodem quando tocados.',
+                description: 'Montanhas que cresceram da noite para o dia após a Purificação, compostas inteiramente de cristais arcanos. Eles emitem uma luz fantasmagórica que pode ser visto a quilômetros de distância. Os cristais têm propriedades estranhas - alguns curam, outros corrompem, e muitos simplesmente explodem quando tocados.',
                 type: 'Formação Cristalina Anômala',
                 population: 'Mineradores destemidos e estudiosos do arcanismo',
                 faction: 'Guilda dos Mineradores de Cristal',
@@ -1322,7 +1179,7 @@
             initShootingStars();
             initCosmicDust();
             setupMapInteractions();
-            setupMapControls();
+            setupFullscreenButton();
             setupNavigation();
             setupScrollIndicator();
             startAmbientSounds();
@@ -1532,68 +1389,12 @@
             mapImage.style.transform = `translate(${appState.mapX}px, ${appState.mapY}px) scale(${appState.mapZoom})`;
         }
 
-        // Configurar controles do mapa
-        function setupMapControls() {
-            const mapImage = document.getElementById('mapImage');
-            const zoomInBtn = document.getElementById('zoomInBtn');
-            const zoomOutBtn = document.getElementById('zoomOutBtn');
-            const resetZoomBtn = document.getElementById('resetZoomBtn');
+        // Configurar botão de tela cheia
+        function setupFullscreenButton() {
             const fullscreenBtn = document.getElementById('fullscreenBtn');
-
-            // Zoom in
-            zoomInBtn.addEventListener('click', () => {
-                if (appState.mapZoom < 3) {
-                    appState.mapZoom += 0.2;
-                    updateMapPosition();
-                }
-            });
-
-            // Zoom out
-            zoomOutBtn.addEventListener('click', () => {
-                if (appState.mapZoom > 0.5) {
-                    appState.mapZoom -= 0.2;
-                    updateMapPosition();
-                }
-            });
-
-            // Reset zoom e posição
-            resetZoomBtn.addEventListener('click', () => {
-                appState.mapZoom = 1;
-                appState.mapX = 0;
-                appState.mapY = 0;
-                updateMapPosition();
-            });
-
-            // Tela cheia
-            fullscreenBtn.addEventListener('click', toggleFullscreen);
-
-            // Zoom com scroll
-            const mapContainer = document.getElementById('mapContainer');
-            mapContainer.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                
-                // Calcular posição do mouse relativa ao mapa
-                const rect = mapContainer.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-                
-                // Salvar ponto focal antes do zoom
-                const focalX = (mouseX - appState.mapX) / appState.mapZoom;
-                const focalY = (mouseY - appState.mapY) / appState.mapZoom;
-                
-                // Aplicar zoom
-                if (e.deltaY < 0 && appState.mapZoom < 3) {
-                    appState.mapZoom += 0.1;
-                } else if (e.deltaY > 0 && appState.mapZoom > 0.5) {
-                    appState.mapZoom -= 0.1;
-                }
-                
-                // Ajustar posição para manter o ponto focal
-                appState.mapX = mouseX - focalX * appState.mapZoom;
-                appState.mapY = mouseY - focalY * appState.mapZoom;
-                
-                updateMapPosition();
-            });
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', toggleFullscreen);
+            }
         }
 
         // Alternar tela cheia
